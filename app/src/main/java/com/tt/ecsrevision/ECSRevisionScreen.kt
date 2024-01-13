@@ -18,7 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.tt.ecsrevision.ui.WelcomeScreen
-import com.tt.ecsrevision.ui.theme.ChooserScreen
+import com.tt.ecsrevision.ui.ChooserScreen
 
 enum class ECSRevisionScreen(@StringRes val title:Int) {
     Welcome(title = R.string.welcome),

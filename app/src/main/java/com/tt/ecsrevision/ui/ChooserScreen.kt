@@ -1,4 +1,4 @@
-package com.tt.ecsrevision.ui.theme
+package com.tt.ecsrevision.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
