@@ -98,9 +98,8 @@ fun ECSRevisionApp(
             }
 
             composable(route = ECSRevisionScreen.Chooser.name){
-                ChooserScreen(
-
-                )
+                ChooserScreen()
+                { navController.navigate(ECSRevisionScreen.Revision.name) }
             }
 
             composable(route = ECSRevisionScreen.Revision.name){

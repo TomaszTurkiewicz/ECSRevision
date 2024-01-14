@@ -22,64 +22,116 @@ fun RevisionScreen()
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .fillMaxWidth()
-            .background(Color.Green),
+            .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         //question
         Box(
             Modifier
-                .background(Color.Blue)
                 .fillMaxWidth()
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.6f),
             contentAlignment = Alignment.Center
 
         ) {
             Text(
                 text = "Question",
-                textAlign = TextAlign.Center,
-                modifier = Modifier.background(Color.LightGray)
+                textAlign = TextAlign.Center
             )
         }
 
-        // answers and buttons
+        // answers
         Column(
             Modifier
-                .background(Color.Cyan)
                 .fillMaxWidth()
-                .fillMaxHeight(1f),
+                .fillMaxHeight(0.8f),
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            // answer A and C
+            // answer A
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.Absolute.Left
             ) {
                 Text(
-                    text = "Answer A",
-                    Modifier.background(Color.Magenta))
-                Text(text = "Answer C")
+                    text = "A:",
+                    Modifier
+                        .fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center
+                )
+                Text(text = "Answer")
             }
-            // answer B and D
+            // answer B
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.Absolute.Left
             ) {
-                Text(text = "Answer B")
-                Text(text = "Answer D")
+                Text(
+                    text = "B:",
+                    Modifier
+                        .fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "Answer"
+                )
             }
-            // next and previous
+            // answer C
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.Absolute.Left
             ) {
+                Text(
+                    text = "C:",
+                    Modifier
+                        .fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center)
+                Text(text = "Answer")
+            }
+            // answer D
+            Row(
+                Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.Left
+            ) {
+                Text(
+                    text = "D:",
+                    Modifier
+                        .fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center)
+                Text(text = "Answer")
+            }
+        }
+
+        // next and previous
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            Box(
+                modifier = Modifier.fillMaxWidth(0.5f).fillMaxHeight(),
+                contentAlignment = Alignment.Center
+
+            ){
                 Button(onClick = { /*TODO*/ }) {
-                    Text(text = "PREVIOUS")
-                }
-                Button(onClick = { /*TODO*/ }) {
-                    Text(text = "NEXT")
+                    Text(
+                        text = "PREVIOUS",
+                        modifier = Modifier.fillMaxWidth(0.5f),
+                        textAlign = TextAlign.Center
+                    )
                 }
             }
+            Box(
+                modifier = Modifier.fillMaxWidth(1f).fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ){
+                Button(
+                    onClick = { /*TODO*/ },
+
+                ) {
+                    Text(text = "NEXT",
+                        modifier = Modifier.fillMaxWidth(0.5f),
+                        textAlign = TextAlign.Center)
+                }
+            }
+
         }
 
     }

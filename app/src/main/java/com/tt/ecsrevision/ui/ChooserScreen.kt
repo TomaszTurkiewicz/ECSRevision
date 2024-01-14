@@ -17,7 +17,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.tt.ecsrevision.R
 
 @Composable
-fun ChooserScreen()
+fun ChooserScreen(
+    moveToRevision: () -> Unit
+)
 {
     Column(
         modifier = Modifier.fillMaxHeight().fillMaxWidth(),
@@ -25,7 +27,7 @@ fun ChooserScreen()
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { /*TODO*/ })
+            onClick = { moveToRevision() })
         {
             Text(stringResource(R.string.revision))
         }
@@ -40,5 +42,6 @@ fun ChooserScreen()
 @Preview
 @Composable
 fun ChooserScreenPreview(){
-    ChooserScreen()
+    ChooserScreen {//do nothing
+    }
 }
