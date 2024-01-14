@@ -30,5 +30,3 @@ fun GreetingPreview() {
         ECSRevisionApp()
     }
 }
-
-// todo use view model for database number !!!

@@ -23,8 +23,7 @@ class AppViewModel() : ViewModel() {
         }
     }
 
-    fun increaseDatabaseNumber(context: Context){
-        val number = SharedPreferences.getDatabaseNumber(context) + 1
+    fun saveNumberToSharedPreferences(context:Context, number:Int){
         SharedPreferences.saveDatabaseNumber(context,number)
         _uiState.update { currentState ->
             currentState.copy(
@@ -32,4 +31,5 @@ class AppViewModel() : ViewModel() {
             )
         }
     }
+
 }

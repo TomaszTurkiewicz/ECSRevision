@@ -1,6 +1,7 @@
 package com.tt.ecsrevision
 
 import android.content.Context
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +25,12 @@ import com.tt.ecsrevision.ui.AppViewModel
 import com.tt.ecsrevision.ui.WelcomeScreen
 import com.tt.ecsrevision.ui.ChooserScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.tt.ecsrevision.ui.RevisionScreen
 
 enum class ECSRevisionScreen(@StringRes val title:Int) {
     Welcome(title = R.string.welcome),
@@ -84,13 +91,20 @@ fun ECSRevisionApp(
                 WelcomeScreen(
                     context = context,
                     databaseNumber = uiState.databaseVersion,
-                    viewModel = viewModel,
-                    navHostController = navController
-                )
+                    viewModel = viewModel
+                ){
+                    navController.navigate(ECSRevisionScreen.Chooser.name)
+                }
             }
 
             composable(route = ECSRevisionScreen.Chooser.name){
                 ChooserScreen(
+
+                )
+            }
+
+            composable(route = ECSRevisionScreen.Revision.name){
+                RevisionScreen(
 
                 )
             }
