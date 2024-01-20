@@ -1,7 +1,5 @@
 package com.tt.ecsrevision
 
-import android.content.Context
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,15 +19,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.tt.ecsrevision.ui.AppViewModel
+import com.tt.ecsrevision.viewmodels.AppViewModel
 import com.tt.ecsrevision.ui.WelcomeScreen
 import com.tt.ecsrevision.ui.ChooserScreen
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.tt.ecsrevision.ui.RevisionScreen
 
 enum class ECSRevisionScreen(@StringRes val title:Int) {
@@ -59,7 +52,7 @@ fun ECSRevisionAppBar(
 
 @Composable
 fun ECSRevisionApp(
-    viewModel: AppViewModel = viewModel(),
+    viewModel: AppViewModel,
     navController: NavHostController = rememberNavController()
 )
 {
@@ -98,13 +91,17 @@ fun ECSRevisionApp(
             }
 
             composable(route = ECSRevisionScreen.Chooser.name){
-                ChooserScreen()
+                ChooserScreen(
+
+                )
                 { navController.navigate(ECSRevisionScreen.Revision.name) }
             }
 
             composable(route = ECSRevisionScreen.Revision.name){
                 RevisionScreen(
-
+                    context = context,
+                    viewModel = viewModel,
+                    question = uiState.question
                 )
             }
         }

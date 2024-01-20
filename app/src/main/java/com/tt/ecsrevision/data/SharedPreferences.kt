@@ -20,7 +20,22 @@ class SharedPreferences() {
                 context.getString(R.string.database_number),
                 Context.MODE_PRIVATE
             )
-            return sp.getInt(context.getString(R.string.database_number), 100)
+            return sp.getInt(context.getString(R.string.database_number), 0)
+        }
+
+        fun saveCurrentRevisionQuestion(context: Context, number:Int){
+            val sp = context.getSharedPreferences(context.getString(R.string.revision_question_number),Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putInt(context.getString(R.string.revision_question_number),number)
+            editor.apply()
+        }
+
+        fun getCurrentRevisionQuestion(context:Context):Int{
+            val sp = context.getSharedPreferences(
+                context.getString(R.string.revision_question_number),
+                Context.MODE_PRIVATE
+            )
+            return sp.getInt(context.getString(R.string.revision_question_number),0)
         }
     }
 }

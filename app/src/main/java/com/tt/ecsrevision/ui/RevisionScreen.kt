@@ -1,5 +1,6 @@
 package com.tt.ecsrevision.ui
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,16 +16,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.viewmodels.AppViewModel
 
 @Composable
-fun RevisionScreen()
+fun RevisionScreen(
+    context:Context,
+    viewModel: AppViewModel,
+    question:Question
+)
 {
+
+    viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
+
     Column(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.05f),
+            contentAlignment = Alignment.TopStart){
+            Text(text = "" + question.segment + "." + question.number)
+        }
         //question
         Box(
             Modifier
@@ -34,7 +51,7 @@ fun RevisionScreen()
 
         ) {
             Text(
-                text = "Question",
+                text = question.question,
                 textAlign = TextAlign.Center
             )
         }
@@ -57,7 +74,7 @@ fun RevisionScreen()
                         .fillMaxWidth(0.1f),
                     textAlign = TextAlign.Center
                 )
-                Text(text = "Answer")
+                Text(text = question.answerA)
             }
             // answer B
             Row(
@@ -71,7 +88,7 @@ fun RevisionScreen()
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Answer"
+                    text = question.answerB
                 )
             }
             // answer C
@@ -84,7 +101,7 @@ fun RevisionScreen()
                     Modifier
                         .fillMaxWidth(0.1f),
                     textAlign = TextAlign.Center)
-                Text(text = "Answer")
+                Text(text = question.answerC)
             }
             // answer D
             Row(
@@ -96,7 +113,7 @@ fun RevisionScreen()
                     Modifier
                         .fillMaxWidth(0.1f),
                     textAlign = TextAlign.Center)
-                Text(text = "Answer")
+                Text(text = question.answerD)
             }
         }
 
@@ -106,41 +123,47 @@ fun RevisionScreen()
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth(0.5f).fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight(),
                 contentAlignment = Alignment.Center
 
             ){
-                Button(onClick = { /*TODO*/ }) {
-                    Text(
-                        text = "PREVIOUS",
-                        modifier = Modifier.fillMaxWidth(0.5f),
-                        textAlign = TextAlign.Center
-                    )
+                if(!viewModel.isCurrentRevisionPositionEqualToZero()){
+                    Button(onClick = { viewModel.previousRevisionQuestion(context) }) {
+                        Text(
+                            text = "PREVIOUS",
+                            modifier = Modifier.fillMaxWidth(0.5f),
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
+
             }
             Box(
-                modifier = Modifier.fillMaxWidth(1f).fillMaxHeight(),
+                modifier = Modifier
+                    .fillMaxWidth(1f)
+                    .fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ){
-                Button(
-                    onClick = { /*TODO*/ },
+                if(!viewModel.isRevisionLastQuestion()){
+                    Button(
+                        onClick = { viewModel.nextRevisionQuestion(context) }
 
-                ) {
-                    Text(text = "NEXT",
-                        modifier = Modifier.fillMaxWidth(0.5f),
-                        textAlign = TextAlign.Center)
+                    ) {
+                        Text(text = "NEXT",
+                            modifier = Modifier.fillMaxWidth(0.5f),
+                            textAlign = TextAlign.Center)
+                    }
                 }
             }
-
         }
-
     }
-
 }
 
 
-@Preview
-@Composable
-fun RevisionScreenPreview(){
-    RevisionScreen()
-}
+//@Preview
+//@Composable
+//fun RevisionScreenPreview(){
+//    RevisionScreen()
+//}

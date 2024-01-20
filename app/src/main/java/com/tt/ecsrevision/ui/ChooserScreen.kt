@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.tt.ecsrevision.R
+import com.tt.ecsrevision.viewmodels.AppViewModel
 
 @Composable
 fun ChooserScreen(
@@ -27,7 +28,9 @@ fun ChooserScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Button(
-            onClick = { moveToRevision() })
+            onClick = {
+                moveToRevision()
+            })
         {
             Text(stringResource(R.string.revision))
         }
@@ -39,9 +42,9 @@ fun ChooserScreen(
     }
 }
 
-@Preview
-@Composable
-fun ChooserScreenPreview(){
-    ChooserScreen {//do nothing
-    }
-}
+//@Preview
+//@Composable
+//fun ChooserScreenPreview(){
+//    ChooserScreen {//do nothing
+//    }
+//}
