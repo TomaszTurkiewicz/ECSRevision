@@ -64,6 +64,13 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         if(needsSorting){
             sort()
         }
+        else{
+            _uiState.update { currnetState ->
+                currnetState.copy(
+                    revisionQuestionsReady = true
+                )
+            }
+        }
     }
 
     fun insertQuestion(question: Question){

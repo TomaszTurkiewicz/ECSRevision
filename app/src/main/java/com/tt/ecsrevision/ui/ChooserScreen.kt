@@ -1,7 +1,9 @@
 package com.tt.ecsrevision.ui
 
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -12,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.tt.ecsrevision.R
@@ -22,6 +25,12 @@ fun ChooserScreen(
     moveToRevision: () -> Unit
 )
 {
+
+    val activity = LocalContext.current as Activity
+    BackHandler {
+        activity.finish()
+    }
+
     Column(
         modifier = Modifier.fillMaxHeight().fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceEvenly,

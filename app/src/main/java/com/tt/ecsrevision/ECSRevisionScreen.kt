@@ -1,5 +1,7 @@
 package com.tt.ecsrevision
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,6 +59,7 @@ fun ECSRevisionApp(
 )
 {
     val context = LocalContext.current
+
     val backStackEntry by navController.currentBackStackEntryAsState()
 
     val currentScreen = ECSRevisionScreen.valueOf(
@@ -64,6 +67,8 @@ fun ECSRevisionApp(
     )
 
     viewModel.getNumberFromSharedPreferences(context)
+
+
 
     Scaffold(
         topBar = {
@@ -84,7 +89,8 @@ fun ECSRevisionApp(
                 WelcomeScreen(
                     context = context,
                     databaseNumber = uiState.databaseVersion,
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    databaseReady = uiState.revisionQuestionsReady
                 ){
                     navController.navigate(ECSRevisionScreen.Chooser.name)
                 }

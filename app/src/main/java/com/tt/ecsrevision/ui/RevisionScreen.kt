@@ -1,6 +1,8 @@
 package com.tt.ecsrevision.ui
 
+import android.app.Activity
 import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,6 +30,7 @@ fun RevisionScreen(
 {
 
     viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
+
 
     Column(
         modifier = Modifier

@@ -23,32 +23,34 @@ fun WelcomeScreen(
     context: Context,
     databaseNumber: Int,
     viewModel: AppViewModel,
+    databaseReady:Boolean,
     moveToNext: () -> Unit
 )
 {
+    if(databaseReady){
+        moveToNext()
+    }else {
 
-    Column {
-        Text(
-            text = "LOADING"
-        )
-        Text(
-            text = databaseNumber.toString()
-        )
-    }
-
-    LaunchedEffect(key1 = 1){
-        checkDatabase(context, databaseNumber,viewModel){
-            moveToNext()
+        Column {
+            Text(
+                text = "LOADING"
+            )
+            Text(
+                text = databaseNumber.toString()
+            )
         }
+
+        LaunchedEffect(key1 = 1) {
+            checkDatabase(context, databaseNumber, viewModel)
+        }
+
     }
-
-
 
 }
 
 
 
-fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel, moveToNext: () -> Unit){
+fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
     val db = Firebase.database.getReference(context.getString(R.string.firebase_database_number))
     db.addListenerForSingleValueEvent(object : ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -57,7 +59,6 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel, moveT
                 if(fNumber==spNumber){
 
                     viewModel.getAllQuestions()
-                        moveToNext()
 
                     // for creating question template
 //                    createQuestions(context,1)
@@ -84,10 +85,7 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel, moveT
                                     }
                                 }
 
-                                saveToRoomDatabase(viewModel,context,fNumber,list.size,list){
-                                    moveToNext()
-                                }
-
+                                saveToRoomDatabase(viewModel,context,fNumber,list.size,list)
 
                             }else{
                                 Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
@@ -114,19 +112,15 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel, moveT
     })
 }
 
-private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber:Int, size:Int, list:ArrayList<Question>, moveToNext: () -> Unit) {
+private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber:Int, size:Int, list:ArrayList<Question>) {
 
     if(currentPosition!=size){
         viewModel.insertQuestion(list[currentPosition])
         currentPosition+=1
-        saveToRoomDatabase(viewModel,context,fNumber,size,list){
-            moveToNext()
-        }
+        saveToRoomDatabase(viewModel,context,fNumber,size,list)
     }else{
         viewModel.saveNumberToSharedPreferences(context,fNumber)
         viewModel.getAllQuestions()
-            moveToNext()
-
     }
 
 
