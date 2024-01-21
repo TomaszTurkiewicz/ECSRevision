@@ -43,7 +43,8 @@ fun RevisionScreen(
                 .fillMaxWidth()
                 .fillMaxHeight(0.05f),
             contentAlignment = Alignment.TopStart){
-            Text(text = "" + question.segment + "." + question.number)
+            Text(
+                text = "" + question.segment + "." + question.number)
         }
         //question
         Box(
@@ -68,8 +69,10 @@ fun RevisionScreen(
         ) {
             // answer A
             Row(
-                Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Left
+                Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.Left,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "A:",
@@ -77,12 +80,14 @@ fun RevisionScreen(
                         .fillMaxWidth(0.1f),
                     textAlign = TextAlign.Center
                 )
-                Text(text = question.answerA)
+                Text(
+                    text = question.answerA)
             }
             // answer B
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Left
+                horizontalArrangement = Arrangement.Absolute.Left,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "B:",
@@ -97,7 +102,8 @@ fun RevisionScreen(
             // answer C
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Left
+                horizontalArrangement = Arrangement.Absolute.Left,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "C:",
@@ -109,7 +115,8 @@ fun RevisionScreen(
             // answer D
             Row(
                 Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Absolute.Left
+                horizontalArrangement = Arrangement.Absolute.Left,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = "D:",
