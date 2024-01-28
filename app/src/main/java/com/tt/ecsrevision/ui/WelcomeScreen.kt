@@ -12,6 +12,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.tt.ecsrevision.R
+import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.firebase.QuestionFirebase
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.helpers.DatabaseConverter
@@ -58,7 +59,7 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
             if(fNumber!=null){
                 if(fNumber==spNumber){
 
-                    viewModel.getAllQuestions()
+                    viewModel.getAllQuestions(context)
 
                     // for creating question template
 //                    createQuestions(context,1)
@@ -84,6 +85,8 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
                                         }
                                     }
                                 }
+
+                                SharedPreferences.saveNumberOfQuestions(context,list.size)
 
                                 saveToRoomDatabase(viewModel,context,fNumber,list.size,list)
 
@@ -120,7 +123,7 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
         saveToRoomDatabase(viewModel,context,fNumber,size,list)
     }else{
         viewModel.saveNumberToSharedPreferences(context,fNumber)
-        viewModel.getAllQuestions()
+        viewModel.getAllQuestions(context)
     }
 
 

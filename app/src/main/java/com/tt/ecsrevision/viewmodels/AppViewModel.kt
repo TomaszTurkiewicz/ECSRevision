@@ -31,10 +31,15 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     private var currentRevisionQuestion = 0
 
 
-    fun getAllQuestions(){
+    fun getAllQuestions(context:Context){
+        val numberOfQuestions = SharedPreferences.getNumberOfQuestions(context)
         coroutineScope.launch(Dispatchers.IO) {
             list = questionDao.getQuestions()
-            sort()
+            if(list.size == numberOfQuestions){
+                sort()
+            }else{
+             getAllQuestions(context)
+            }
         }
     }
 
@@ -65,8 +70,8 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
             sort()
         }
         else{
-            _uiState.update { currnetState ->
-                currnetState.copy(
+            _uiState.update { currentState ->
+                currentState.copy(
                     revisionQuestionsReady = true
                 )
             }
