@@ -62,10 +62,12 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
                     viewModel.getAllQuestions(context)
 
                     // for creating question template
-//                    createQuestions(context,1)
+//                    createQuestions(context,2)
 
 
                 }else{
+
+                    viewModel.nukeTable()
 
                     val list = arrayListOf<Question>()
                     val dbQuestions = Firebase.database.getReference(

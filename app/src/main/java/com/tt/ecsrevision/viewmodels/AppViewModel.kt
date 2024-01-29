@@ -43,6 +43,12 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         }
     }
 
+    fun nukeTable(){
+        coroutineScope.launch(Dispatchers.IO){
+            questionDao.deleteAllQuestions()
+        }
+    }
+
     private fun sort(){
         var needsSorting = false
         for(i in 0 .. list.size-2){
