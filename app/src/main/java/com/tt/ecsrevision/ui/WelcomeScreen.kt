@@ -67,6 +67,7 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
 
                 }else{
 
+
                     viewModel.nukeTable()
 
                     val list = arrayListOf<Question>()
@@ -126,6 +127,7 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
     }else{
         viewModel.saveNumberToSharedPreferences(context,fNumber)
         viewModel.getAllQuestions(context)
+        viewModel.initializeCurrentRevisionQuestion(context)
     }
 
 

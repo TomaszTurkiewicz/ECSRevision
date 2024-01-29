@@ -43,6 +43,8 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         }
     }
 
+
+
     fun nukeTable(){
         coroutineScope.launch(Dispatchers.IO){
             questionDao.deleteAllQuestions()
@@ -112,6 +114,11 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     private fun saveCurrentRevisionQuestionToSharedPreferences(context: Context){
         SharedPreferences.saveCurrentRevisionQuestion(context,currentRevisionQuestion)
         getCurrentRevisionQuestionFromSharedPreferences(context)
+    }
+
+    fun initializeCurrentRevisionQuestion(context: Context){
+        currentRevisionQuestion = 0
+        SharedPreferences.saveCurrentRevisionQuestion(context,currentRevisionQuestion)
     }
 
     fun nextRevisionQuestion(context: Context) {
