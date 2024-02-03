@@ -1,4 +1,4 @@
-package com.tt.ecsrevision.ui
+package com.tt.ecsrevision.ui.screens
 
 import android.content.Context
 import android.widget.Toast
@@ -120,9 +120,9 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
 
 private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber:Int, size:Int, list:ArrayList<Question>) {
 
-    if(currentPosition!=size){
+    if(currentPosition !=size){
         viewModel.insertQuestion(list[currentPosition])
-        currentPosition+=1
+        currentPosition +=1
         saveToRoomDatabase(viewModel,context,fNumber,size,list)
     }else{
         viewModel.saveNumberToSharedPreferences(context,fNumber)

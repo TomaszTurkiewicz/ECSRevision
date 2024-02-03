@@ -1,4 +1,4 @@
-package com.tt.ecsrevision.ui
+package com.tt.ecsrevision.ui.components
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

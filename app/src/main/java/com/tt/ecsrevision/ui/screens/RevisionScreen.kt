@@ -1,4 +1,4 @@
-package com.tt.ecsrevision.ui
+package com.tt.ecsrevision.ui.screens
 
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
+import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.RevisionAnswerRow
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 
@@ -50,6 +53,7 @@ fun RevisionScreen(
             ) {
                 Text(
                     text = "QUESTION: " + question.segment + "." + question.number,
+                    style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(16.dp)
@@ -152,13 +156,21 @@ fun RevisionScreen(
 
             ) {
                 if (!viewModel.isCurrentRevisionPositionEqualToZero()) {
-                    Button(onClick = { viewModel.previousRevisionQuestion(context) }) {
-                        Text(
-                            text = "PREVIOUS",
-                            modifier = Modifier.fillMaxWidth(0.5f),
-                            textAlign = TextAlign.Center
-                        )
+
+                    CustomButtonWithText(
+                        title = "PREVIOUS",
+                        modifier = Modifier.fillMaxWidth(0.8f).fillMaxHeight(0.5f)
+                    ) {
+                        viewModel.previousRevisionQuestion(context)
                     }
+
+//                    Button(onClick = { viewModel.previousRevisionQuestion(context) }) {
+//                        Text(
+//                            text = "PREVIOUS",
+//                            modifier = Modifier.fillMaxWidth(0.5f),
+//                            textAlign = TextAlign.Center
+//                        )
+//                    }
                 }
 
             }

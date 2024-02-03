@@ -2,12 +2,7 @@ package com.tt.ecsrevision.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-val LightGreen = Color(0xFF2EFF00)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
-val DarkGreen = Color(0xFF178100)
+val LightGreenInner = Color(0xFFE8FFE4)
+val LightGreenBorder = Color(0xFF2BEC00)
+val DarkGreenBorder = Color(0xFF126300)
+val DarkGreenInner = Color(0xFF203D1A)

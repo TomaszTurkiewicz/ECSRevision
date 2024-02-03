@@ -1,7 +1,5 @@
 package com.tt.ecsrevision
 
-import android.app.Activity
-import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,11 +19,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.tt.ecsrevision.ui.screens.ChooserScreen
+import com.tt.ecsrevision.ui.screens.RevisionScreen
+import com.tt.ecsrevision.ui.screens.WelcomeScreen
 import com.tt.ecsrevision.viewmodels.AppViewModel
-import com.tt.ecsrevision.ui.WelcomeScreen
-import com.tt.ecsrevision.ui.ChooserScreen
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tt.ecsrevision.ui.RevisionScreen
 
 enum class ECSRevisionScreen(@StringRes val title:Int) {
     Welcome(title = R.string.welcome),

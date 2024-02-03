@@ -22,12 +22,14 @@ import androidx.compose.runtime.staticCompositionLocalOf
 
 private val DarkMyColorPalette = CustomColorsPalette(
     material = darkColorScheme(),
-    correctAnswer = DarkGreen
+    correctAnswerInner = DarkGreenInner,
+    correctAnswerBorder = DarkGreenBorder
 )
 
 private val LightMyColorPalette = CustomColorsPalette(
     material = lightColorScheme(),
-    correctAnswer = LightGreen
+    correctAnswerInner = LightGreenInner,
+    correctAnswerBorder = LightGreenBorder
 )
 
 val LocalColors = staticCompositionLocalOf { LightMyColorPalette }

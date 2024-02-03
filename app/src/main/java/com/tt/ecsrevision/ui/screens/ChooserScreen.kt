@@ -1,4 +1,4 @@
-package com.tt.ecsrevision.ui
+package com.tt.ecsrevision.ui.screens
 
 import android.app.Activity
 import android.content.Context

@@ -11,7 +11,8 @@ import javax.annotation.concurrent.Immutable
 @Immutable
 data class CustomColorsPalette(
     val material: ColorScheme,
-    val correctAnswer: Color
+    val correctAnswerInner: Color,
+    val correctAnswerBorder: Color
 ){
     val primary:Color get() = material.primary
     val onPrimary:Color get() = material.onPrimary
