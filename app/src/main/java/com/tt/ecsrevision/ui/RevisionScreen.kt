@@ -1,9 +1,6 @@
 package com.tt.ecsrevision.ui
 
-import android.app.Activity
 import android.content.Context
-import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,24 +8,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
-import com.tt.ecsrevision.R
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.viewmodels.AppViewModel
-import java.lang.reflect.Type
 
 
 @Composable
@@ -112,86 +101,38 @@ fun RevisionScreen(
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             // answer A
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.25f),
-                horizontalArrangement = Arrangement.Absolute.Left,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ComposeAutoResizedText(
-                    text = "A:",
-                    modifier = Modifier.fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                ComposeAutoResizedText(
-                    text = question.answerA,
-                    textAlign = TextAlign.Left,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
+            RevisionAnswerRow(
+                modifier = Modifier,
+                heightSize = 0.25f,
+                answerMark = "A: ",
+                answer = question.answerA
+            )
             // answer B
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.33f),
-                horizontalArrangement = Arrangement.Absolute.Left,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ComposeAutoResizedText(
-                    text = "B:",
-                    modifier = Modifier.fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                ComposeAutoResizedText(
-                    text = question.answerB,
-                    textAlign = TextAlign.Left,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
-            // answer C
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5f),
-                horizontalArrangement = Arrangement.Absolute.Left,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ComposeAutoResizedText(
-                    text = "C:",
-                    modifier = Modifier.fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                ComposeAutoResizedText(
-                    text = question.answerC,
-                    textAlign = TextAlign.Left,
-                    style = MaterialTheme.typography.bodyLarge
-                )
+            RevisionAnswerRow(
+                modifier = Modifier,
+                heightSize = 0.33f,
+                answerMark = "B: ",
+                answer = question.answerB
+            )
 
-            }
+            // answer C
+
+            RevisionAnswerRow(
+                modifier = Modifier,
+                heightSize = 0.5f,
+                answerMark = "C: ",
+                answer = question.answerC
+            )
+
             // answer D
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
-                horizontalArrangement = Arrangement.Absolute.Left,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                ComposeAutoResizedText(
-                    text = "D:",
-                    modifier = Modifier.fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-                ComposeAutoResizedText(
-                    text = question.answerD,
-                    textAlign = TextAlign.Left,
-                    style = MaterialTheme.typography.bodyLarge
-                )
-            }
+
+            RevisionAnswerRow(
+                modifier = Modifier,
+                heightSize = 1f,
+                answerMark = "D: ",
+                answer = question.answerD
+            )
+
         }
 
         // next and previous

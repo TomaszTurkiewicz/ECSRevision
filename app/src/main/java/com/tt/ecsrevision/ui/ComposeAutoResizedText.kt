@@ -18,7 +18,7 @@ fun ComposeAutoResizedText(
     text:String,
     style: TextStyle = MaterialTheme.typography.titleLarge,
     modifier: Modifier = Modifier,
-    textAlign: TextAlign
+    textAlign: TextAlign,
 ) {
 
     var currentStyle:TextStyle = style
