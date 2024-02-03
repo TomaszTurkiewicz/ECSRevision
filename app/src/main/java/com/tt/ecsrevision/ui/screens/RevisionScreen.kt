@@ -51,9 +51,9 @@ fun RevisionScreen(
                     .fillMaxWidth(0.5f)
                     .fillMaxHeight()
             ) {
-                Text(
+                ComposeAutoResizedText(
                     text = "QUESTION: " + question.segment + "." + question.number,
-                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .padding(16.dp)
@@ -159,18 +159,12 @@ fun RevisionScreen(
 
                     CustomButtonWithText(
                         title = "PREVIOUS",
-                        modifier = Modifier.fillMaxWidth(0.8f).fillMaxHeight(0.5f)
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .fillMaxHeight(0.5f)
                     ) {
                         viewModel.previousRevisionQuestion(context)
                     }
-
-//                    Button(onClick = { viewModel.previousRevisionQuestion(context) }) {
-//                        Text(
-//                            text = "PREVIOUS",
-//                            modifier = Modifier.fillMaxWidth(0.5f),
-//                            textAlign = TextAlign.Center
-//                        )
-//                    }
                 }
 
             }
@@ -181,16 +175,24 @@ fun RevisionScreen(
                 contentAlignment = Alignment.Center
             ) {
                 if (!viewModel.isRevisionLastQuestion()) {
-                    Button(
-                        onClick = { viewModel.nextRevisionQuestion(context) }
 
-                    ) {
-                        Text(
-                            text = "NEXT",
-                            modifier = Modifier.fillMaxWidth(0.5f),
-                            textAlign = TextAlign.Center
-                        )
+                    CustomButtonWithText(
+                        title = "NEXT",
+                        modifier = Modifier
+                            .fillMaxWidth(0.8f)
+                            .fillMaxHeight(0.5f)) {
+                        viewModel.nextRevisionQuestion(context)
                     }
+//                    Button(
+//                        onClick = { viewModel.nextRevisionQuestion(context) }
+//
+//                    ) {
+//                        Text(
+//                            text = "NEXT",
+//                            modifier = Modifier.fillMaxWidth(0.5f),
+//                            textAlign = TextAlign.Center
+//                        )
+//                    }
                 }
             }
         }

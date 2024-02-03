@@ -1,6 +1,7 @@
 package com.tt.ecsrevision.ui.components
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.ui.theme.myColors
 import java.nio.file.WatchEvent
@@ -34,12 +38,11 @@ fun CustomButtonWithText(
         mutableStateOf(false)
     }
 
-    var backgroundColor = MaterialTheme.myColors.background
-    var textColor = MaterialTheme.myColors.primary
+    var backgroundColor = MaterialTheme.myColors.secondary
+    val textColor = MaterialTheme.myColors.background
 
     if(touchedDown.value){
-        backgroundColor = MaterialTheme.myColors.primary
-        textColor = MaterialTheme.myColors.background
+        backgroundColor = MaterialTheme.myColors.tertiary
     }
 
     Card (
@@ -67,13 +70,13 @@ fun CustomButtonWithText(
                 )
             }
             .shadow(
-                elevation = 1.dp,
-                shape = RoundedCornerShape(10.dp),
+                elevation = 2.dp,
+                shape = RoundedCornerShape(20.dp),
                 clip = true,
                 ambientColor = MaterialTheme.myColors.primary,
                 spotColor = MaterialTheme.myColors.primary
             ),
-        shape = RoundedCornerShape(5.dp),
+        shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor
         )
@@ -84,10 +87,12 @@ fun CustomButtonWithText(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ){
-            Text(
+            ComposeAutoResizedText(
                 text = title,
-                color = textColor,
-                modifier = modifier.defaultMinSize())
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = textColor
+                ))
         }
     }
 }
