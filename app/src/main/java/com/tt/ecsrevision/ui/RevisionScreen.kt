@@ -105,14 +105,16 @@ fun RevisionScreen(
                 modifier = Modifier,
                 heightSize = 0.25f,
                 answerMark = "A: ",
-                answer = question.answerA
+                answer = question.answerA,
+                correctAnswer = question.correctAnswer == 1
             )
             // answer B
             RevisionAnswerRow(
                 modifier = Modifier,
                 heightSize = 0.33f,
                 answerMark = "B: ",
-                answer = question.answerB
+                answer = question.answerB,
+                correctAnswer = question.correctAnswer == 2
             )
 
             // answer C
@@ -121,7 +123,8 @@ fun RevisionScreen(
                 modifier = Modifier,
                 heightSize = 0.5f,
                 answerMark = "C: ",
-                answer = question.answerC
+                answer = question.answerC,
+                correctAnswer = question.correctAnswer == 3
             )
 
             // answer D
@@ -130,7 +133,8 @@ fun RevisionScreen(
                 modifier = Modifier,
                 heightSize = 1f,
                 answerMark = "D: ",
-                answer = question.answerD
+                answer = question.answerD,
+                correctAnswer = question.correctAnswer == 4
             )
 
         }

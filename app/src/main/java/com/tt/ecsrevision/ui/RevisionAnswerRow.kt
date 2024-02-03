@@ -16,14 +16,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.tt.ecsrevision.ui.theme.myColors
 
 @Composable
 fun RevisionAnswerRow(
     modifier: Modifier,
     heightSize:Float,
     answerMark:String,
-    answer:String
+    answer:String,
+    correctAnswer: Boolean
 ) {
+    val frameColor = if(correctAnswer) MaterialTheme.myColors.correctAnswer else MaterialTheme.colorScheme.tertiary
     Row (
         modifier = modifier
             .fillMaxWidth()
@@ -31,7 +34,7 @@ fun RevisionAnswerRow(
             .padding(5.dp)
             .border(
                 width = 2.dp,
-                color = MaterialTheme.colorScheme.primary,
+                color = frameColor,
                 shape = RoundedCornerShape(20.dp)
             )
             .padding(end = 2.dp),
