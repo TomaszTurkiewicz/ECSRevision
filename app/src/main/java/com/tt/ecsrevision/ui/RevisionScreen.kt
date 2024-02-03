@@ -10,24 +10,33 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
+import com.tt.ecsrevision.R
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.viewmodels.AppViewModel
+import java.lang.reflect.Type
+
 
 @Composable
 fun RevisionScreen(
     context:Context,
     viewModel: AppViewModel,
     question:Question
-)
-{
+) {
 
     viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
 
@@ -38,24 +47,59 @@ fun RevisionScreen(
             .fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceEvenly,
     ) {
-        Box(
+        //question number and beginning button
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.05f),
-            contentAlignment = Alignment.TopStart){
-            Text(
-                text = "" + question.segment + "." + question.number)
+                .fillMaxHeight(0.1f)
+        )
+        {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .fillMaxHeight()
+            ) {
+                Text(
+                    text = "QUESTION: " + question.segment + "." + question.number,
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(16.dp)
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    onClick = { viewModel.backToFirstQuestion(context) }
+
+                ) {
+                    Text(
+                        text = "BEGINNING",
+                        modifier = Modifier.fillMaxWidth(0.5f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
         }
+
+
         //question
         Box(
             Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.6f),
+                .fillMaxHeight(0.3f),
             contentAlignment = Alignment.Center
 
         ) {
-            Text(
+            ComposeAutoResizedText(
                 text = question.question,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier
+                    .fillMaxHeight(0.8f)
+                    .fillMaxWidth(0.8f),
                 textAlign = TextAlign.Center
             )
         }
@@ -70,60 +114,83 @@ fun RevisionScreen(
             // answer A
             Row(
                 Modifier
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.25f),
                 horizontalArrangement = Arrangement.Absolute.Left,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                ComposeAutoResizedText(
                     text = "A:",
-                    Modifier
-                        .fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
                 )
-                Text(
-                    text = question.answerA)
+                ComposeAutoResizedText(
+                    text = question.answerA,
+                    textAlign = TextAlign.Left,
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
             // answer B
             Row(
-                Modifier.fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.33f),
                 horizontalArrangement = Arrangement.Absolute.Left,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                ComposeAutoResizedText(
                     text = "B:",
-                    Modifier
-                        .fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier.fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
                 )
-                Text(
-                    text = question.answerB
+                ComposeAutoResizedText(
+                    text = question.answerB,
+                    textAlign = TextAlign.Left,
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
             // answer C
             Row(
-                Modifier.fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.5f),
                 horizontalArrangement = Arrangement.Absolute.Left,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                ComposeAutoResizedText(
                     text = "C:",
-                    Modifier
-                        .fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center)
-                Text(text = question.answerC)
+                    modifier = Modifier.fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                ComposeAutoResizedText(
+                    text = question.answerC,
+                    textAlign = TextAlign.Left,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+
             }
             // answer D
             Row(
-                Modifier.fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(),
                 horizontalArrangement = Arrangement.Absolute.Left,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
+                ComposeAutoResizedText(
                     text = "D:",
-                    Modifier
-                        .fillMaxWidth(0.1f),
-                    textAlign = TextAlign.Center)
-                Text(text = question.answerD)
+                    modifier = Modifier.fillMaxWidth(0.1f),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge
+                )
+                ComposeAutoResizedText(
+                    text = question.answerD,
+                    textAlign = TextAlign.Left,
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
 
@@ -138,8 +205,8 @@ fun RevisionScreen(
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
 
-            ){
-                if(!viewModel.isCurrentRevisionPositionEqualToZero()){
+            ) {
+                if (!viewModel.isCurrentRevisionPositionEqualToZero()) {
                     Button(onClick = { viewModel.previousRevisionQuestion(context) }) {
                         Text(
                             text = "PREVIOUS",
@@ -155,15 +222,17 @@ fun RevisionScreen(
                     .fillMaxWidth(1f)
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
-            ){
-                if(!viewModel.isRevisionLastQuestion()){
+            ) {
+                if (!viewModel.isRevisionLastQuestion()) {
                     Button(
                         onClick = { viewModel.nextRevisionQuestion(context) }
 
                     ) {
-                        Text(text = "NEXT",
+                        Text(
+                            text = "NEXT",
                             modifier = Modifier.fillMaxWidth(0.5f),
-                            textAlign = TextAlign.Center)
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }

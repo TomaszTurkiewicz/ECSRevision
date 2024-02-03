@@ -128,6 +128,13 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         }
     }
 
+    fun backToFirstQuestion(context: Context){
+        if(currentRevisionQuestion != 0){
+            currentRevisionQuestion = 0
+            saveCurrentRevisionQuestionToSharedPreferences(context)
+        }
+    }
+
     fun previousRevisionQuestion(context: Context){
         if(currentRevisionQuestion > 0){
             currentRevisionQuestion -=1
