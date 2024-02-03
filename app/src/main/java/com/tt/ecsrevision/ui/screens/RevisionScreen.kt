@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.ui.components.ButtonWithIcon
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.ResetShape
 import com.tt.ecsrevision.ui.components.RevisionAnswerRow
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
@@ -65,16 +67,22 @@ fun RevisionScreen(
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ) {
-                Button(
-                    onClick = { viewModel.backToFirstQuestion(context) }
-
+                ButtonWithIcon(
+                    modifier = Modifier.fillMaxWidth(0.8f).fillMaxHeight(0.5f)
                 ) {
-                    Text(
-                        text = "BEGINNING",
-                        modifier = Modifier.fillMaxWidth(0.5f),
-                        textAlign = TextAlign.Center
-                    )
+                    viewModel.backToFirstQuestion(context)
                 }
+//                Button(
+//                    onClick = { viewModel.backToFirstQuestion(context) }
+//
+//                ) {
+//
+//                    Text(
+//                        text = "BEGINNING",
+//                        modifier = Modifier.fillMaxWidth(0.5f),
+//                        textAlign = TextAlign.Center
+//                    )
+//                }
             }
         }
 
