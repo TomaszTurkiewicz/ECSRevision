@@ -27,9 +27,7 @@ private val DarkMyColorPalette = CustomColorsPalette(
 )
 
 private val LightMyColorPalette = CustomColorsPalette(
-    material = lightColorScheme(
-        primaryContainer = blue
-    ),
+    material = lightColorScheme(),
     correctAnswerInner = LightGreenInner,
     correctAnswerBorder = LightGreenBorder
 )

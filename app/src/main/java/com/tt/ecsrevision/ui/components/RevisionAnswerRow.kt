@@ -1,5 +1,6 @@
 package com.tt.ecsrevision.ui.components
 
+import android.app.AlertDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +29,8 @@ fun RevisionAnswerRow(
     answer:String,
     correctAnswer: Boolean,
     oneAnswer:Boolean,
-    info:String
+    info:String,
+    alertDialog: MutableState<Boolean>
 ) {
     val frameColor = if(correctAnswer) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.colorScheme.secondary
     if(correctAnswer)
@@ -78,7 +81,7 @@ fun RevisionAnswerRow(
                         corners = 10.dp,
                         oneAnswer = oneAnswer
                     ) {
-                        //todo show info
+                        alertDialog.value = true
                     }
                 }
             }

@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -20,6 +22,7 @@ import com.tt.ecsrevision.ui.components.ButtonWithIcon
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.ui.components.INFO_ICON
+import com.tt.ecsrevision.ui.components.InfoAlertDialog
 import com.tt.ecsrevision.ui.components.RESET_ICON
 import com.tt.ecsrevision.ui.components.RevisionAnswerRow
 import com.tt.ecsrevision.viewmodels.AppViewModel
@@ -34,6 +37,8 @@ fun RevisionScreen(
 ) {
 
     viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
+
+    val alertDialog = remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -132,7 +137,8 @@ fun RevisionScreen(
                     answer = question.answerA,
                     correctAnswer = question.correctAnswer == 1,
                     oneAnswer,
-                    question.info
+                    question.info,
+                    alertDialog
                 )
                 // answer B
                 RevisionAnswerRow(
@@ -142,7 +148,8 @@ fun RevisionScreen(
                     answer = question.answerB,
                     correctAnswer = question.correctAnswer == 2,
                     oneAnswer,
-                    question.info
+                    question.info,
+                    alertDialog
                 )
 
                 // answer C
@@ -154,7 +161,8 @@ fun RevisionScreen(
                     answer = question.answerC,
                     correctAnswer = question.correctAnswer == 3,
                     oneAnswer,
-                    question.info
+                    question.info,
+                    alertDialog
                 )
 
                 // answer D
@@ -166,7 +174,8 @@ fun RevisionScreen(
                     answer = question.answerD,
                     correctAnswer = question.correctAnswer == 4,
                     oneAnswer,
-                    question.info
+                    question.info,
+                    alertDialog
                 )
 
             }
@@ -217,6 +226,15 @@ fun RevisionScreen(
             }
         }
 
+    if(alertDialog.value){
+        InfoAlertDialog(
+            onDismissRequest = {
+                alertDialog.value = false
+                               },
+            dialogText = question.info
+        )
+
+    }
     }
 
 
