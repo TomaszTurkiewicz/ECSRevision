@@ -3,6 +3,7 @@ package com.tt.ecsrevision.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.ui.theme.myColors
@@ -24,7 +26,8 @@ fun RevisionAnswerRow(
     answerMark:String,
     answer:String,
     correctAnswer: Boolean,
-    oneAnswer:Boolean
+    oneAnswer:Boolean,
+    info:String
 ) {
     val frameColor = if(correctAnswer) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.colorScheme.secondary
     if(correctAnswer)
@@ -48,7 +51,9 @@ fun RevisionAnswerRow(
             ComposeAutoResizedText(
                 text = answerMark,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(0.1f).padding(start = 10.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .padding(start = 10.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
             ComposeAutoResizedText(
@@ -56,7 +61,28 @@ fun RevisionAnswerRow(
                 textAlign = TextAlign.Left,
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = modifier
-                    .padding(end=10.dp))
+                    .padding(end = 10.dp)
+                    .fillMaxWidth(0.9f)
+            )
+
+            Box(modifier =Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+                contentAlignment = Alignment.Center){
+
+                //todo show button only if info not null or ""...
+                if(info.isNotEmpty()) {
+                    ButtonWithIcon(
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        iconType = INFO_ICON,
+                        corners = 10.dp,
+                        oneAnswer = oneAnswer
+                    ) {
+                        //todo show info
+                    }
+                }
+            }
+
 
         }
     }
@@ -79,7 +105,9 @@ fun RevisionAnswerRow(
             ComposeAutoResizedText(
                 text = answerMark,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth(0.1f).padding(start = 10.dp),
+                modifier = Modifier
+                    .fillMaxWidth(0.1f)
+                    .padding(start = 10.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
             if (!oneAnswer) {
@@ -89,6 +117,7 @@ fun RevisionAnswerRow(
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = modifier
                         .padding(end = 10.dp)
+                        .fillMaxWidth(0.9f)
                 )
 
             }

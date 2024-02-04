@@ -5,14 +5,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,8 +19,8 @@ import com.tt.ecsrevision.ui.components.ANSWER_SETTINGS_ICON
 import com.tt.ecsrevision.ui.components.ButtonWithIcon
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.INFO_ICON
 import com.tt.ecsrevision.ui.components.RESET_ICON
-import com.tt.ecsrevision.ui.components.ResetShape
 import com.tt.ecsrevision.ui.components.RevisionAnswerRow
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
@@ -45,7 +41,7 @@ fun RevisionScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.SpaceEvenly,
         ) {
-            //question number and beginning button
+            //question number, settings button and reset button
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -75,8 +71,8 @@ fun RevisionScreen(
                 ) {
                     ButtonWithIcon(
                         modifier = Modifier.fillMaxHeight(0.7f),
-                        ANSWER_SETTINGS_ICON,
-                        oneAnswer
+                        iconType = ANSWER_SETTINGS_ICON,
+                        oneAnswer = oneAnswer
                     ) {
                         viewModel.invertOneAnswer(context)
                     }
@@ -135,7 +131,8 @@ fun RevisionScreen(
                     answerMark = "A: ",
                     answer = question.answerA,
                     correctAnswer = question.correctAnswer == 1,
-                    oneAnswer
+                    oneAnswer,
+                    question.info
                 )
                 // answer B
                 RevisionAnswerRow(
@@ -144,7 +141,8 @@ fun RevisionScreen(
                     answerMark = "B: ",
                     answer = question.answerB,
                     correctAnswer = question.correctAnswer == 2,
-                    oneAnswer
+                    oneAnswer,
+                    question.info
                 )
 
                 // answer C
@@ -155,7 +153,8 @@ fun RevisionScreen(
                     answerMark = "C: ",
                     answer = question.answerC,
                     correctAnswer = question.correctAnswer == 3,
-                    oneAnswer
+                    oneAnswer,
+                    question.info
                 )
 
                 // answer D
@@ -166,7 +165,8 @@ fun RevisionScreen(
                     answerMark = "D: ",
                     answer = question.answerD,
                     correctAnswer = question.correctAnswer == 4,
-                    oneAnswer
+                    oneAnswer,
+                    question.info
                 )
 
             }
@@ -216,7 +216,8 @@ fun RevisionScreen(
                 }
             }
         }
-}
+
+    }
 
 
 //@Preview

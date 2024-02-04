@@ -1,4 +1,4 @@
-package com.tt.ecsrevision.ui.components
+package com.tt.ecsrevision.ui.shapes
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.padding

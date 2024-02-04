@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.tt.ecsrevision.ui.screens.ChooserScreen
 import com.tt.ecsrevision.ui.screens.RevisionScreen
 import com.tt.ecsrevision.ui.screens.WelcomeScreen
+import com.tt.ecsrevision.ui.theme.myColors
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 enum class ECSRevisionScreen(@StringRes val title:Int) {
@@ -42,7 +43,7 @@ fun ECSRevisionAppBar(
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = MaterialTheme.myColors.primaryContainer
         ),
         modifier = modifier
     )
