@@ -15,5 +15,6 @@ data class AppUiState(
         answerD = "d",
         correctAnswer = 0,
         info = "i"),
-    val revisionQuestionsReady: Boolean = false
+    val revisionQuestionsReady: Boolean = false,
+    val oneAnswer:Boolean = false
 )

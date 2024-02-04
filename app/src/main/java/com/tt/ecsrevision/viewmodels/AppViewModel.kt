@@ -29,6 +29,7 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     private var list: MutableList<Question> = mutableListOf()
 
     private var currentRevisionQuestion = 0
+    private var oneAnswer = false
 
 
     fun getAllQuestions(context:Context){
@@ -107,6 +108,25 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(
                 question = list[currentRevisionQuestion]
+            )
+        }
+    }
+
+    fun getOneAnswerBooleanFromSharedPreferences(context: Context){
+        oneAnswer = SharedPreferences.getOneAnswer(context)
+        _uiState.update { currentState ->
+            currentState.copy(
+                oneAnswer = oneAnswer
+            )
+        }
+    }
+
+    fun invertOneAnswer(context: Context){
+        oneAnswer = !oneAnswer
+        SharedPreferences.saveOneAnswer(context, oneAnswer)
+        _uiState.update { currentState ->
+            currentState.copy(
+                oneAnswer = oneAnswer
             )
         }
     }

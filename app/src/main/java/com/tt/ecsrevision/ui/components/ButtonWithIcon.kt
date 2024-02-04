@@ -29,9 +29,14 @@ import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.ui.theme.myColors
 import java.util.concurrent.CancellationException
 
+const val RESET_ICON = 1
+const val ANSWER_SETTINGS_ICON = 2
+
 @Composable
 fun ButtonWithIcon(
     modifier: Modifier,
+    iconType:Int,
+    oneAnswer:Boolean,
     onClick: () -> Unit
 ) {
     val touchedDown = remember {
@@ -83,9 +88,9 @@ fun ButtonWithIcon(
                 spotColor = MaterialTheme.myColors.primary
             )
             .onGloballyPositioned { coordinates ->
-                                 heightDp = with(localDensity){
-                                     coordinates.size.height.toDp()
-                                 }
+                heightDp = with(localDensity) {
+                    coordinates.size.height.toDp()
+                }
             },
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
@@ -98,7 +103,11 @@ fun ButtonWithIcon(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ){
-           ResetShape(iconSize = heightDp)
+            when(iconType){
+                RESET_ICON -> ResetShape(iconSize = heightDp)
+                ANSWER_SETTINGS_ICON -> AnswerListShape(iconSize = heightDp,oneAnswer = oneAnswer)
+            }
+
         }
     }
 }

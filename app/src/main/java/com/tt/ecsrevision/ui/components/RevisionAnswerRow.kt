@@ -23,7 +23,8 @@ fun RevisionAnswerRow(
     heightSize:Float,
     answerMark:String,
     answer:String,
-    correctAnswer: Boolean
+    correctAnswer: Boolean,
+    oneAnswer:Boolean
 ) {
     val frameColor = if(correctAnswer) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.colorScheme.secondary
     if(correctAnswer)
@@ -74,20 +75,23 @@ fun RevisionAnswerRow(
                 .padding(end = 2.dp),
             horizontalArrangement = Arrangement.Absolute.Left,
             verticalAlignment = Alignment.CenterVertically
-        ){
+        ) {
             ComposeAutoResizedText(
                 text = answerMark,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(0.1f).padding(start = 10.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
-            ComposeAutoResizedText(
-                text = answer,
-                textAlign = TextAlign.Left,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = modifier
-                    .padding(end=10.dp))
+            if (!oneAnswer) {
+                ComposeAutoResizedText(
+                    text = answer,
+                    textAlign = TextAlign.Left,
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = modifier
+                        .padding(end = 10.dp)
+                )
 
+            }
         }
     }
 

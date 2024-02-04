@@ -64,6 +64,7 @@ fun ECSRevisionApp(
     )
 
     viewModel.getNumberFromSharedPreferences(context)
+    viewModel.getOneAnswerBooleanFromSharedPreferences(context)
 
 
 
@@ -104,7 +105,8 @@ fun ECSRevisionApp(
                 RevisionScreen(
                     context = context,
                     viewModel = viewModel,
-                    question = uiState.question
+                    question = uiState.question,
+                    oneAnswer = uiState.oneAnswer
                 )
             }
         }

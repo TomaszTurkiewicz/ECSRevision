@@ -52,5 +52,20 @@ class SharedPreferences() {
             )
             return sp.getInt(context.getString(R.string.number_of_questions), 0)
         }
+
+        fun saveOneAnswer(context: Context,oneAnswer:Boolean){
+            val sp = context.getSharedPreferences(context.getString(R.string.one_answer),Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putBoolean(context.getString(R.string.one_answer),oneAnswer)
+            editor.apply()
+        }
+
+        fun getOneAnswer(context: Context):Boolean{
+            val sp = context.getSharedPreferences(
+                context.getString(R.string.one_answer),
+                Context.MODE_PRIVATE
+            )
+            return sp.getBoolean(context.getString(R.string.one_answer),false)
+        }
     }
 }
