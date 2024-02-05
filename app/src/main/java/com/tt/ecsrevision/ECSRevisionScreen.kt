@@ -131,7 +131,8 @@ fun ECSRevisionApp(
             composable(route = ECSRevisionScreen.Test.name){
                 TestScreen(
                     viewModel = viewModel,
-                    intro = uiState.testIntro
+                    navController = navController,
+                    testState = uiState.testState
                 )
             }
         }

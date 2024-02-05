@@ -57,6 +57,22 @@ class AppViewModel(
         }
     }
 
+    fun getTestTimeInt():Int{
+        return this.testTime
+    }
+
+    fun getTestNumberOfQuestions():Int{
+        var sum = 0
+        testList.forEach {
+            sum += it.numberOfQuestions
+        }
+        return sum
+    }
+
+    fun getPassMarkInt():Int{
+        return this.passMark
+    }
+
     fun getAllTest(context: Context){
         val numberOfTests = SharedPreferences.getNumberOfTests(context)
         coroutineScope.launch(Dispatchers.IO){
@@ -75,7 +91,7 @@ class AppViewModel(
 
     fun getPassMark(){
         coroutineScope.launch(Dispatchers.IO) {
-        passMark = passMarkDao.getPassMark()
+        passMark = passMarkDao.getPassMark().passMark
         _uiState.update { currentState ->
             currentState.copy(
                 passMarkReady = true
@@ -86,7 +102,7 @@ class AppViewModel(
 
     fun getTestTime(){
         coroutineScope.launch(Dispatchers.IO) {
-            testTime = testTimeDao.getTestTime()
+            testTime = testTimeDao.getTestTime().testTime
             _uiState.update { currentState ->
                 currentState.copy(
                     testTimeReady = true
@@ -211,13 +227,6 @@ class AppViewModel(
         }
     }
 
-    fun finishTestIntro(){
-        _uiState.update { currentState ->
-            currentState.copy(
-                testIntro = false
-            )
-        }
-    }
 
     private fun saveCurrentRevisionQuestionToSharedPreferences(context: Context){
         SharedPreferences.saveCurrentRevisionQuestion(context,currentRevisionQuestion)

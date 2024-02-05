@@ -45,7 +45,6 @@ fun ChooserScreen(
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-//        verticalArrangement = Arrangement.SpaceEvenly
     ) {
        Box (
            modifier = Modifier

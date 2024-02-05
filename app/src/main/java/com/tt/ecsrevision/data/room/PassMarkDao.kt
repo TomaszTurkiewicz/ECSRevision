@@ -11,7 +11,7 @@ interface PassMarkDao {
     suspend fun insert(passMark: PassMark)
 
     @Query("Select * from passmark")
-    fun getPassMark(): Int
+    fun getPassMark(): PassMark
 
     @Query("DELETE FROM passmark")
     suspend fun deletePassMark()

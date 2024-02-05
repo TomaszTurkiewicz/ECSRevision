@@ -2,6 +2,10 @@ package com.tt.ecsrevision.data
 
 import com.tt.ecsrevision.data.room.Question
 
+const val TEST_INTRO = 0
+const val TEST_RUN = 1
+const val TEST_SUMMARY = 3
+const val TEST_WRONG_ANSWERS = 4
 data class AppUiState(
     val databaseVersion: Int = 0,
     val question:Question = Question(
@@ -20,5 +24,5 @@ data class AppUiState(
     val passMarkReady:Boolean = false,
     val testTimeReady:Boolean = false,
     val oneAnswer:Boolean = false,
-    val testIntro:Boolean = true
+    val testState:Int = TEST_INTRO
 )

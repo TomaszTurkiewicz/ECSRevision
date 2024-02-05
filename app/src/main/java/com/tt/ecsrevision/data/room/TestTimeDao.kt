@@ -11,7 +11,7 @@ interface TestTimeDao {
     suspend fun insert(testTime: TestTime)
 
     @Query("Select * from testtime")
-    fun getTestTime(): Int
+    fun getTestTime(): TestTime
 
     @Query("DELETE FROM testtime")
     suspend fun deleteTestTime()
