@@ -137,6 +137,14 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         }
     }
 
+    fun finishTestIntro(){
+        _uiState.update { currentState ->
+            currentState.copy(
+                testIntro = false
+            )
+        }
+    }
+
     private fun saveCurrentRevisionQuestionToSharedPreferences(context: Context){
         SharedPreferences.saveCurrentRevisionQuestion(context,currentRevisionQuestion)
         getCurrentRevisionQuestionFromSharedPreferences(context)

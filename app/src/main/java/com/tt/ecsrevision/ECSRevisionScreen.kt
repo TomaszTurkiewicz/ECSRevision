@@ -1,6 +1,7 @@
 package com.tt.ecsrevision
 
-import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -12,6 +13,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -22,6 +24,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.tt.ecsrevision.ui.screens.ChooserScreen
 import com.tt.ecsrevision.ui.screens.RevisionScreen
+import com.tt.ecsrevision.ui.screens.TestScreen
 import com.tt.ecsrevision.ui.screens.WelcomeScreen
 import com.tt.ecsrevision.ui.theme.myColors
 import com.tt.ecsrevision.viewmodels.AppViewModel
@@ -59,6 +62,10 @@ fun ECSRevisionApp(
 )
 {
     val context = LocalContext.current
+    val link = context.getString(R.string.other_games_link)
+    val intent = remember {
+        Intent(Intent.ACTION_VIEW, Uri.parse(link))
+    }
 
     val backStackEntry by navController.currentBackStackEntryAsState()
 
@@ -99,18 +106,32 @@ fun ECSRevisionApp(
 
             composable(route = ECSRevisionScreen.Chooser.name){
                 ChooserScreen(
+                    moveToRevision = {
+                        navController.navigate(ECSRevisionScreen.Revision.name)
+                    },
+                    moveToTest = {
+                        navController.navigate(ECSRevisionScreen.Test.name)
+                    }
 
                 )
-                { navController.navigate(ECSRevisionScreen.Revision.name) }
+                {
+                    context.startActivity(intent)
+                }
             }
 
             composable(route = ECSRevisionScreen.Revision.name){
                 RevisionScreen(
                     activity = activity,
-                    context = context,
                     viewModel = viewModel,
                     question = uiState.question,
                     oneAnswer = uiState.oneAnswer
+                )
+            }
+
+            composable(route = ECSRevisionScreen.Test.name){
+                TestScreen(
+                    viewModel = viewModel,
+                    intro = uiState.testIntro
                 )
             }
         }

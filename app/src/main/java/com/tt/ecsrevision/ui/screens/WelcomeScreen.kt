@@ -14,6 +14,7 @@ import com.google.firebase.ktx.Firebase
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.firebase.QuestionFirebase
+import com.tt.ecsrevision.data.firebase.SegmentTestFirebase
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.helpers.DatabaseConverter
 import com.tt.ecsrevision.viewmodels.AppViewModel
@@ -63,6 +64,9 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
 
                     // for creating question template
 //                    createQuestions(context,2)
+
+                    // create test requirements database in Firebase
+//                        createTest(context,2)
 
 
                 }else{
@@ -134,6 +138,21 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
 
 }
 
+private fun createTest(context: Context, databaseVersion: Int) {
+createTestSegment(context,databaseVersion,1,6)
+createTestSegment(context,databaseVersion,2,4)
+createTestSegment(context,databaseVersion,3,3)
+createTestSegment(context,databaseVersion,4,4)
+createTestSegment(context,databaseVersion,5,3)
+createTestSegment(context,databaseVersion,6,9)
+createTestSegment(context,databaseVersion,7,5)
+createTestSegment(context,databaseVersion,8,4)
+createTestSegment(context,databaseVersion,9,3)
+createTestSegment(context,databaseVersion,10,6)
+createTestSegment(context,databaseVersion,11,3)
+
+}
+
 private fun createQuestions(context: Context, databaseVersion:Int) {
     createSegment(context, databaseVersion,1,40)
     createSegment(context,databaseVersion,2,27)
@@ -148,6 +167,21 @@ private fun createQuestions(context: Context, databaseVersion:Int) {
     createSegment(context,databaseVersion,11,21)
 
 
+}
+
+private fun createTestSegment(context: Context, databaseVersion: Int, segmentNumber:Int, numberOfQuestions:Int){
+    val segmentTest = SegmentTestFirebase()
+    segmentTest.segment = segmentNumber
+    segmentTest.numberOfQuestions = numberOfQuestions
+    val dbTest = Firebase.database.getReference(
+        context.getString(R.string.firebase_database_test
+        )
+    )
+        //database version
+        .child(databaseVersion.toString())
+        // segment number
+        .child(segmentNumber.toString())
+    dbTest.setValue(segmentTest)
 }
 
 private fun createSegment(context:Context, databaseVersion:Int, segmentNumber:Int,numberOfQuestions:Int){

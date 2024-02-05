@@ -14,9 +14,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.MainActivity
+import com.tt.ecsrevision.R
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.ui.components.ANSWER_SETTINGS_ICON
 import com.tt.ecsrevision.ui.components.ButtonWithIcon
@@ -37,12 +39,12 @@ const val D = 4
 @Composable
 fun RevisionScreen(
     activity: MainActivity,
-    context:Context,
     viewModel: AppViewModel,
     question:Question,
     oneAnswer:Boolean
 ) {
 
+    val context = LocalContext.current
     viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
 
     val alertDialogInfo = remember { mutableStateOf(false) }
@@ -69,7 +71,8 @@ fun RevisionScreen(
                         .fillMaxHeight()
                 ) {
                     ComposeAutoResizedText(
-                        text = "QUESTION: " + question.segment + "." + question.number,
+          //              text = "QUESTION: " + question.segment + "." + question.number,
+                        text = context.getString(R.string.question_number,question.segment,question.number),
                         textAlign = TextAlign.Start,
                         modifier = Modifier
                             .align(Alignment.CenterStart)
@@ -143,7 +146,7 @@ fun RevisionScreen(
                 RevisionAnswerRow(
                     modifier = Modifier,
                     heightSize = 0.25f,
-                    answerMark = "A: ",
+                    answerMark = context.getString(R.string.a),
                     answer = question.answerA,
                     correctAnswer = question.correctAnswer == A,
                     oneAnswer,
@@ -154,7 +157,7 @@ fun RevisionScreen(
                 RevisionAnswerRow(
                     modifier = Modifier,
                     heightSize = 0.33f,
-                    answerMark = "B: ",
+                    answerMark = context.getString(R.string.b),
                     answer = question.answerB,
                     correctAnswer = question.correctAnswer == B,
                     oneAnswer,
@@ -167,7 +170,7 @@ fun RevisionScreen(
                 RevisionAnswerRow(
                     modifier = Modifier,
                     heightSize = 0.5f,
-                    answerMark = "C: ",
+                    answerMark = context.getString(R.string.c),
                     answer = question.answerC,
                     correctAnswer = question.correctAnswer == C,
                     oneAnswer,
@@ -180,7 +183,7 @@ fun RevisionScreen(
                 RevisionAnswerRow(
                     modifier = Modifier,
                     heightSize = 1f,
-                    answerMark = "D: ",
+                    answerMark = context.getString(R.string.d),
                     answer = question.answerD,
                     correctAnswer = question.correctAnswer == D,
                     oneAnswer,
@@ -205,7 +208,7 @@ fun RevisionScreen(
                     if (!viewModel.isCurrentRevisionPositionEqualToZero()) {
 
                         CustomButtonWithText(
-                            title = "PREVIOUS",
+                            title = context.getString(R.string.previous),
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                                 .fillMaxHeight(0.5f)
@@ -224,7 +227,7 @@ fun RevisionScreen(
                     if (!viewModel.isRevisionLastQuestion()) {
 
                         CustomButtonWithText(
-                            title = "NEXT",
+                            title = context.getString(R.string.next),
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                                 .fillMaxHeight(0.5f)
@@ -247,9 +250,10 @@ fun RevisionScreen(
     }
 
     if(alertDialogAd.value){
+        alertDialogAd.value = false
         InterstitialAdAlertDialog(context = context) {
+
             activity.showInterstitialAd()
-            alertDialogAd.value = false
         }
     }
 
