@@ -29,6 +29,8 @@ class MainActivity : ComponentActivity() {
         AppViewModelFactory(
             (this.application as ECSApplication).database.questionDao(),
             (this.application as ECSApplication).database.testDao(),
+            (this.application as ECSApplication).database.passMarkDao(),
+            (this.application as ECSApplication).database.testTimeDao()
         )
     }
 

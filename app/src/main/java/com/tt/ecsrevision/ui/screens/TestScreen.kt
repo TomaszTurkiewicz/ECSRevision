@@ -16,14 +16,13 @@ fun TestScreen(
     intro:Boolean
 ) {
     if(intro){
+        //when displaying intro, loading rewarded ad and preparing list of questions
         Box(modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .background(Color.Green)
-            .clickable {
-                viewModel.finishTestIntro()
-            })
+        )
     }else{
+        // navigating through test (display time!!!)
         Box(modifier = Modifier
             .fillMaxWidth()
             .fillMaxHeight()

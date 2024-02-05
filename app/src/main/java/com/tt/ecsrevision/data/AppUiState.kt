@@ -17,6 +17,8 @@ data class AppUiState(
         info = "i"),
     val revisionQuestionsReady: Boolean = false,
     val testReady: Boolean = false,
+    val passMarkReady:Boolean = false,
+    val testTimeReady:Boolean = false,
     val oneAnswer:Boolean = false,
     val testIntro:Boolean = true
 )

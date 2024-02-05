@@ -11,12 +11,15 @@ import androidx.compose.runtime.remember
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.firebase.QuestionFirebase
 import com.tt.ecsrevision.data.firebase.SegmentTestFirebase
+import com.tt.ecsrevision.data.firebase.TestPassMarkFirebase
+import com.tt.ecsrevision.data.firebase.TestTimeFirebase
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.helpers.DatabaseConverter
@@ -26,19 +29,20 @@ var currentPosition = 0
 var currentTestPosition = 0
 var revisionDB = false
 var testDB = false
+var testTimeDB = false
+var testPassMarkDB = false
 @Composable
 fun WelcomeScreen(
     context: Context,
     databaseNumber: Int,
     viewModel: AppViewModel,
-    databaseRevisionReady:Boolean,
-    databaseTestReady:Boolean,
+    databaseReady: Boolean,
     moveToNext: () -> Unit
 )
 {
 
 
-    if(databaseRevisionReady && (databaseTestReady)){
+    if(databaseReady){
         moveToNext()
     }else {
 
@@ -70,16 +74,24 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
                 if(fNumber==spNumber){
                     viewModel.getAllQuestions(context)
                     viewModel.getAllTest(context)
+                    viewModel.getPassMark()
+                    viewModel.getTestTime()
+
                     // for creating question template
 //                    createQuestions(context,2)
                     // create test requirements database in Firebase
 //                        createTest(context,2)
+                    // create test pass mark
+//                    createTestPassMark(context,2)
+                    // create test time
+//                    createTestTime(context,2)
                 }else{
 
 
 //                    viewModel.nukeTable()
                     viewModel.nukeTables()
 
+                    // read all questions
                     val list = arrayListOf<Question>()
                     val dbQuestions = Firebase.database.getReference(
                         context.getString(R.string.firebase_database)
@@ -112,6 +124,7 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
                         }
                     })
 
+                    // read test requirements
                     val testList = arrayListOf<Test>()
                     val dbTest = Firebase.database.getReference(
                         context.getString(R.string.firebase_database_test)
@@ -144,6 +157,55 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
 
                     })
 
+                    // read test pass mark
+                    var passMark = 0
+                    val dbPassMark = Firebase.database.getReference(
+                        context.getString(R.string.firebase_database_test_pass_mark)
+                    )
+                        .child(fNumber.toString())
+                    dbPassMark.addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(snapshot.exists()){
+                                val pM = snapshot.getValue(TestPassMarkFirebase::class.java)
+                                pM?.let {
+                                    passMark = it.passMark
+                                }
+                                savePassMarkToRoomDatabase(viewModel,context,fNumber,passMark)
+                            }else{
+                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                        }
+
+                    })
+
+                    // read test time
+                    var testTime = 0
+                    val dbTestTime = Firebase.database.getReference(
+                        context.getString(R.string.firebase_database_test_time)
+                    )
+                        .child(fNumber.toString())
+                    dbTestTime.addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(snapshot.exists()){
+                                val tM = snapshot.getValue(TestTimeFirebase::class.java)
+                                tM?.let {
+                                    testTime = it.time
+                                }
+                                saveTestTimeToRoomDatabase(viewModel,context,fNumber,testTime)
+                            }else{
+                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                        }
+
+                    })
                 }
             }else{
                 Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
@@ -158,6 +220,23 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
         }
 
     })
+}
+
+
+private fun savePassMarkToRoomDatabase(viewModel: AppViewModel,context: Context,fNumber: Int,passMark:Int){
+    viewModel.insertPassMArk(passMark = DatabaseConverter.passMarkFirebaseToRoom(passMark))
+    testPassMarkDB = true
+    saveDatabaseNumber(viewModel,context,fNumber)
+    viewModel.getPassMark()
+
+}
+
+private fun saveTestTimeToRoomDatabase(viewModel: AppViewModel,context: Context,fNumber: Int,testTime:Int){
+    viewModel.insertTestTime(testTime = DatabaseConverter.passTestTimeFirebaseToRoom(testTime))
+    testTimeDB = true
+    saveDatabaseNumber(viewModel,context,fNumber)
+    viewModel.getTestTime()
+
 }
 
 private fun saveTestToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber:Int, size:Int, list:ArrayList<Test>) {
@@ -187,12 +266,32 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
 }
 
 private fun saveDatabaseNumber(viewModel:AppViewModel,context: Context,databaseVersion: Int) {
-    if (revisionDB && (testDB)) {
+    if (revisionDB && (testDB &&(testTimeDB && testPassMarkDB))) {
         viewModel.saveNumberToSharedPreferences(context, databaseVersion)
     }
 }
 
+private fun createTestPassMark(context: Context, databaseVersion:Int){
+    val testPassMark = TestPassMarkFirebase()
+    testPassMark.passMark = 43
 
+    val dbPassMark = Firebase.database.getReference(
+        context.getString(R.string.firebase_database_test_pass_mark)
+    )
+        .child(databaseVersion.toString())
+    dbPassMark.setValue(testPassMark)
+}
+
+private fun createTestTime(context: Context, databaseVersion:Int){
+    val testTime = TestTimeFirebase()
+    testTime.time = 30
+
+    val dbTestTime = Firebase.database.getReference(
+        context.getString(R.string.firebase_database_test_time)
+    )
+        .child(databaseVersion.toString())
+    dbTestTime.setValue(testTime)
+}
 
 private fun createTest(context: Context, databaseVersion: Int) {
 createTestSegment(context,databaseVersion,1,6)

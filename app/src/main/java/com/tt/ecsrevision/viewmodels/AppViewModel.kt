@@ -1,17 +1,18 @@
 package com.tt.ecsrevision.viewmodels
 
 import android.content.Context
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tt.ecsrevision.data.AppUiState
 import com.tt.ecsrevision.data.SharedPreferences
+import com.tt.ecsrevision.data.room.PassMark
+import com.tt.ecsrevision.data.room.PassMarkDao
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.QuestionDao
 import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.data.room.TestDao
+import com.tt.ecsrevision.data.room.TestTime
+import com.tt.ecsrevision.data.room.TestTimeDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +22,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
-class AppViewModel(private val questionDao: QuestionDao, private val testDao: TestDao) : ViewModel() {
+class AppViewModel(
+    private val questionDao: QuestionDao,
+    private val testDao: TestDao,
+    private val passMarkDao: PassMarkDao,
+    private val testTimeDao: TestTimeDao
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
@@ -30,6 +36,8 @@ class AppViewModel(private val questionDao: QuestionDao, private val testDao: Te
 
     private var list: MutableList<Question> = mutableListOf()
     private var testList:MutableList<Test> = mutableListOf()
+    private var passMark = 0
+    private var testTime = 0
 
     private var currentRevisionQuestion = 0
     private var oneAnswer = false
@@ -65,6 +73,27 @@ class AppViewModel(private val questionDao: QuestionDao, private val testDao: Te
         }
     }
 
+    fun getPassMark(){
+        coroutineScope.launch(Dispatchers.IO) {
+        passMark = passMarkDao.getPassMark()
+        _uiState.update { currentState ->
+            currentState.copy(
+                passMarkReady = true
+            )
+        }
+        }
+    }
+
+    fun getTestTime(){
+        coroutineScope.launch(Dispatchers.IO) {
+            testTime = testTimeDao.getTestTime()
+            _uiState.update { currentState ->
+                currentState.copy(
+                    testTimeReady = true
+                )
+            }
+        }
+    }
 
 
     fun nukeTable(){
@@ -77,6 +106,8 @@ class AppViewModel(private val questionDao: QuestionDao, private val testDao: Te
         coroutineScope.launch(Dispatchers.IO){
             questionDao.deleteAllQuestions()
             testDao.deleteAllTests()
+            testTimeDao.deleteTestTime()
+            passMarkDao.deletePassMark()
         }
     }
 
@@ -131,6 +162,17 @@ class AppViewModel(private val questionDao: QuestionDao, private val testDao: Te
         }
     }
 
+    fun insertTestTime(testTime: TestTime){
+        coroutineScope.launch(Dispatchers.IO) {
+            testTimeDao.insert(testTime = testTime)
+        }
+    }
+
+    fun insertPassMArk(passMark: PassMark){
+        coroutineScope.launch(Dispatchers.IO) {
+            passMarkDao.insert(passMark = passMark)
+        }
+    }
 
     fun getNumberFromSharedPreferences(context: Context){
         val number = SharedPreferences.getDatabaseNumber(context)
@@ -238,11 +280,16 @@ class AppViewModel(private val questionDao: QuestionDao, private val testDao: Te
 
 }
 
-class AppViewModelFactory(private val questionDao: QuestionDao,private val testDao: TestDao) : ViewModelProvider.Factory{
+class AppViewModelFactory(
+    private val questionDao: QuestionDao,
+    private val testDao: TestDao,
+    private val passMarkDao: PassMarkDao,
+    private val testTimeDao: TestTimeDao
+) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(AppViewModel::class.java)){
             @Suppress("UNCHECKED_CAST")
-            return AppViewModel(questionDao,testDao) as T
+            return AppViewModel(questionDao,testDao,passMarkDao,testTimeDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
