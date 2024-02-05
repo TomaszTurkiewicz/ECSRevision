@@ -27,7 +27,8 @@ class MainActivity : ComponentActivity() {
 
     private val viewModel:AppViewModel by viewModels{
         AppViewModelFactory(
-            (this.application as ECSApplication).database.questionDao()
+            (this.application as ECSApplication).database.questionDao(),
+            (this.application as ECSApplication).database.testDao(),
         )
     }
 

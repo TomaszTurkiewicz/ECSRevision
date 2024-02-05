@@ -1,6 +1,5 @@
 package com.tt.ecsrevision.data.room
 
-import androidx.lifecycle.MutableLiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy

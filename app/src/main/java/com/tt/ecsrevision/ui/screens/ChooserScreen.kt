@@ -94,7 +94,6 @@ fun ChooserScreen(
                 moveToOtherApps()
             }
         }
-
     }
 }
 

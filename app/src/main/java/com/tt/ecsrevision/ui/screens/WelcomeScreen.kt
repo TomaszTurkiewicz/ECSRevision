@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -16,20 +18,27 @@ import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.firebase.QuestionFirebase
 import com.tt.ecsrevision.data.firebase.SegmentTestFirebase
 import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.helpers.DatabaseConverter
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 var currentPosition = 0
+var currentTestPosition = 0
+var revisionDB = false
+var testDB = false
 @Composable
 fun WelcomeScreen(
     context: Context,
     databaseNumber: Int,
     viewModel: AppViewModel,
-    databaseReady:Boolean,
+    databaseRevisionReady:Boolean,
+    databaseTestReady:Boolean,
     moveToNext: () -> Unit
 )
 {
-    if(databaseReady){
+
+
+    if(databaseRevisionReady && (databaseTestReady)){
         moveToNext()
     }else {
 
@@ -59,20 +68,17 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
             val fNumber = snapshot.getValue(Int::class.java)
             if(fNumber!=null){
                 if(fNumber==spNumber){
-
                     viewModel.getAllQuestions(context)
-
+                    viewModel.getAllTest(context)
                     // for creating question template
 //                    createQuestions(context,2)
-
                     // create test requirements database in Firebase
 //                        createTest(context,2)
-
-
                 }else{
 
 
-                    viewModel.nukeTable()
+//                    viewModel.nukeTable()
+                    viewModel.nukeTables()
 
                     val list = arrayListOf<Question>()
                     val dbQuestions = Firebase.database.getReference(
@@ -105,13 +111,45 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
                             Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
                         }
                     })
-                    //todo read database from Room after creation
+
+                    val testList = arrayListOf<Test>()
+                    val dbTest = Firebase.database.getReference(
+                        context.getString(R.string.firebase_database_test)
+                    )
+                        .child(fNumber.toString())
+                    dbTest.addListenerForSingleValueEvent(object : ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            if(snapshot.exists()){
+                                testList.clear()
+                                for(segment in snapshot.children){
+                                    val t = segment.getValue(SegmentTestFirebase::class.java)
+                                    t?.let {
+                                        val sr = DatabaseConverter.testFirebaseToRoom(it)
+                                        testList.add(sr)
+                                    }
+                                }
+
+                                SharedPreferences.saveNumberOfTests(context,testList.size)
+
+                                saveTestToRoomDatabase(viewModel,context,fNumber,testList.size,testList)
+                            }
+                            else{
+                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                        }
+
+                    })
 
                 }
             }else{
                 Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
             }
         }
+
 
 
 
@@ -122,6 +160,18 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
     })
 }
 
+private fun saveTestToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber:Int, size:Int, list:ArrayList<Test>) {
+    if(currentTestPosition != size){
+        viewModel.insertTest(list[currentTestPosition])
+        currentTestPosition +=1
+        saveTestToRoomDatabase(viewModel,context,fNumber,size,list)
+    }else{
+        testDB = true
+        saveDatabaseNumber(viewModel,context,fNumber)
+        viewModel.getAllTest(context)
+    }
+}
+
 private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber:Int, size:Int, list:ArrayList<Question>) {
 
     if(currentPosition !=size){
@@ -129,14 +179,20 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
         currentPosition +=1
         saveToRoomDatabase(viewModel,context,fNumber,size,list)
     }else{
-        viewModel.saveNumberToSharedPreferences(context,fNumber)
+        revisionDB = true
+        saveDatabaseNumber(viewModel,context,fNumber)
         viewModel.getAllQuestions(context)
         viewModel.initializeCurrentRevisionQuestion(context)
     }
-
-
-
 }
+
+private fun saveDatabaseNumber(viewModel:AppViewModel,context: Context,databaseVersion: Int) {
+    if (revisionDB && (testDB)) {
+        viewModel.saveNumberToSharedPreferences(context, databaseVersion)
+    }
+}
+
+
 
 private fun createTest(context: Context, databaseVersion: Int) {
 createTestSegment(context,databaseVersion,1,6)

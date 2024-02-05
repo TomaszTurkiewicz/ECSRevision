@@ -1,7 +1,9 @@
 package com.tt.ecsrevision.helpers
 
 import com.tt.ecsrevision.data.firebase.QuestionFirebase
+import com.tt.ecsrevision.data.firebase.SegmentTestFirebase
 import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.data.room.Test
 
 class DatabaseConverter {
     companion object{
@@ -17,6 +19,13 @@ class DatabaseConverter {
                 segment = questionFirebase.segment,
                 number = questionFirebase.number,
                 question = questionFirebase.question
+            )
+        }
+
+        fun testFirebaseToRoom(segmentFirebase:SegmentTestFirebase):Test{
+            return Test(
+                segment = segmentFirebase.segment,
+                numberOfQuestions = segmentFirebase.numberOfQuestions
             )
         }
     }

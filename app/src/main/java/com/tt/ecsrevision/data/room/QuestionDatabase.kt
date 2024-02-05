@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [Question::class],
+    entities = [Question::class, Test::class],
     version = 1,
     exportSchema = false
 )
 abstract class QuestionDatabase : RoomDatabase() {
     abstract fun questionDao(): QuestionDao
+    abstract fun testDao(): TestDao
 
     companion object{
         @Volatile

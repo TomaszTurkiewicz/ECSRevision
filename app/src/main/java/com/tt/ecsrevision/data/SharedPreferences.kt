@@ -45,12 +45,27 @@ class SharedPreferences() {
             editor.apply()
         }
 
+        fun saveNumberOfTests(context:Context, number: Int){
+            val sp = context.getSharedPreferences(context.getString(R.string.number_of_tests),Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putInt(context.getString(R.string.number_of_tests),number)
+            editor.apply()
+        }
+
         fun getNumberOfQuestions(context: Context): Int {
             val sp = context.getSharedPreferences(
                 context.getString(R.string.number_of_questions),
                 Context.MODE_PRIVATE
             )
             return sp.getInt(context.getString(R.string.number_of_questions), 0)
+        }
+
+        fun getNumberOfTests(context: Context): Int {
+            val sp = context.getSharedPreferences(
+                context.getString(R.string.number_of_tests),
+                Context.MODE_PRIVATE
+            )
+            return sp.getInt(context.getString(R.string.number_of_tests), 0)
         }
 
         fun saveOneAnswer(context: Context,oneAnswer:Boolean){

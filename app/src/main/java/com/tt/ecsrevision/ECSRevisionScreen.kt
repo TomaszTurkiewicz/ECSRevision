@@ -98,7 +98,8 @@ fun ECSRevisionApp(
                     context = context,
                     databaseNumber = uiState.databaseVersion,
                     viewModel = viewModel,
-                    databaseReady = uiState.revisionQuestionsReady
+                    databaseRevisionReady = uiState.revisionQuestionsReady,
+                    databaseTestReady = uiState.testReady
                 ){
                     navController.navigate(ECSRevisionScreen.Chooser.name)
                 }

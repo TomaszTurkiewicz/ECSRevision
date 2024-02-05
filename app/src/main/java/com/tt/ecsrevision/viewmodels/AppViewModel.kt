@@ -10,6 +10,8 @@ import com.tt.ecsrevision.data.AppUiState
 import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.QuestionDao
+import com.tt.ecsrevision.data.room.Test
+import com.tt.ecsrevision.data.room.TestDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,7 +21,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 
-class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
+class AppViewModel(private val questionDao: QuestionDao, private val testDao: TestDao) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AppUiState())
     val uiState: StateFlow<AppUiState> = _uiState.asStateFlow()
@@ -27,6 +29,7 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     private val coroutineScope = CoroutineScope(Dispatchers.Main)
 
     private var list: MutableList<Question> = mutableListOf()
+    private var testList:MutableList<Test> = mutableListOf()
 
     private var currentRevisionQuestion = 0
     private var oneAnswer = false
@@ -46,11 +49,34 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         }
     }
 
+    fun getAllTest(context: Context){
+        val numberOfTests = SharedPreferences.getNumberOfTests(context)
+        coroutineScope.launch(Dispatchers.IO){
+            testList = testDao.getTest()
+            if(testList.size == numberOfTests){
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        testReady = true
+                    )
+                }
+            }else{
+                getAllTest(context)
+            }
+        }
+    }
+
 
 
     fun nukeTable(){
         coroutineScope.launch(Dispatchers.IO){
             questionDao.deleteAllQuestions()
+        }
+    }
+
+    fun nukeTables(){
+        coroutineScope.launch(Dispatchers.IO){
+            questionDao.deleteAllQuestions()
+            testDao.deleteAllTests()
         }
     }
 
@@ -96,6 +122,12 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     fun insertQuestion(question: Question){
         coroutineScope.launch(Dispatchers.IO){
             questionDao.insert(question = question)
+        }
+    }
+
+    fun insertTest(test: Test){
+        coroutineScope.launch(Dispatchers.IO){
+            testDao.insert(test = test)
         }
     }
 
@@ -206,11 +238,11 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
 
 }
 
-class AppViewModelFactory(private val questionDao: QuestionDao) : ViewModelProvider.Factory{
+class AppViewModelFactory(private val questionDao: QuestionDao,private val testDao: TestDao) : ViewModelProvider.Factory{
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(AppViewModel::class.java)){
             @Suppress("UNCHECKED_CAST")
-            return AppViewModel(questionDao) as T
+            return AppViewModel(questionDao,testDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
