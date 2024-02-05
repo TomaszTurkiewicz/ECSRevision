@@ -16,20 +16,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.tt.ecsrevision.MainActivity
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.ui.components.ANSWER_SETTINGS_ICON
 import com.tt.ecsrevision.ui.components.ButtonWithIcon
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
-import com.tt.ecsrevision.ui.components.INFO_ICON
-import com.tt.ecsrevision.ui.components.InfoAlertDialog
+import com.tt.ecsrevision.ui.alertdialogs.InfoAlertDialog
+import com.tt.ecsrevision.ui.alertdialogs.InterstitialAdAlertDialog
 import com.tt.ecsrevision.ui.components.RESET_ICON
 import com.tt.ecsrevision.ui.components.RevisionAnswerRow
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
+const val A = 1
+const val B = 2
+const val C = 3
+const val D = 4
+
 
 @Composable
 fun RevisionScreen(
+    activity: MainActivity,
     context:Context,
     viewModel: AppViewModel,
     question:Question,
@@ -38,7 +45,10 @@ fun RevisionScreen(
 
     viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
 
-    val alertDialog = remember { mutableStateOf(false) }
+    val alertDialogInfo = remember { mutableStateOf(false) }
+
+    val alertDialogAd = remember { mutableStateOf(false) }
+
 
         Column(
             modifier = Modifier
@@ -135,10 +145,10 @@ fun RevisionScreen(
                     heightSize = 0.25f,
                     answerMark = "A: ",
                     answer = question.answerA,
-                    correctAnswer = question.correctAnswer == 1,
+                    correctAnswer = question.correctAnswer == A,
                     oneAnswer,
                     question.info,
-                    alertDialog
+                    alertDialogInfo
                 )
                 // answer B
                 RevisionAnswerRow(
@@ -146,10 +156,10 @@ fun RevisionScreen(
                     heightSize = 0.33f,
                     answerMark = "B: ",
                     answer = question.answerB,
-                    correctAnswer = question.correctAnswer == 2,
+                    correctAnswer = question.correctAnswer == B,
                     oneAnswer,
                     question.info,
-                    alertDialog
+                    alertDialogInfo
                 )
 
                 // answer C
@@ -159,10 +169,10 @@ fun RevisionScreen(
                     heightSize = 0.5f,
                     answerMark = "C: ",
                     answer = question.answerC,
-                    correctAnswer = question.correctAnswer == 3,
+                    correctAnswer = question.correctAnswer == C,
                     oneAnswer,
                     question.info,
-                    alertDialog
+                    alertDialogInfo
                 )
 
                 // answer D
@@ -172,10 +182,10 @@ fun RevisionScreen(
                     heightSize = 1f,
                     answerMark = "D: ",
                     answer = question.answerD,
-                    correctAnswer = question.correctAnswer == 4,
+                    correctAnswer = question.correctAnswer == D,
                     oneAnswer,
                     question.info,
-                    alertDialog
+                    alertDialogInfo
                 )
 
             }
@@ -226,16 +236,33 @@ fun RevisionScreen(
             }
         }
 
-    if(alertDialog.value){
+    if(alertDialogInfo.value){
         InfoAlertDialog(
             onDismissRequest = {
-                alertDialog.value = false
+                alertDialogInfo.value = false
                                },
             dialogText = question.info
         )
 
     }
+
+    if(alertDialogAd.value){
+        InterstitialAdAlertDialog(context = context) {
+            activity.showInterstitialAd()
+            alertDialogAd.value = false
+        }
     }
+
+    if(viewModel.getClicks()==0){
+        activity.loadInterstitialAd()
+    }
+
+    if(viewModel.getClicks()==40){
+        alertDialogAd.value = activity.interstitialAdIsLoaded()
+    }
+
+    }
+
 
 
 //@Preview

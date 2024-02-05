@@ -1,56 +1,59 @@
-package com.tt.ecsrevision.ui.components
+package com.tt.ecsrevision.ui.alertdialogs
 
 
+
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.tt.ecsrevision.R
+import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
+import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.ui.theme.myColors
 
-
 @Composable
-fun InfoAlertDialog(
-    onDismissRequest: () -> Unit,
-    dialogText:String
+fun InterstitialAdAlertDialog(
+    context: Context,
+    onClick: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = {
-            onDismissRequest()
-                           },
+                           //do nothing
+        },
         title = {
-            Box(modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.2f)){
-                ComposeAutoResizedText(
-                    text = "INFO",
-                    textAlign = TextAlign.Center,
-                    style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .align(Alignment.Center))
-            }
+                Box(modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.2f)
+                ){
+                    ComposeAutoResizedText(
+                        text = "AD",
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier
+                            .align(Alignment.Center))
+                }
         },
         text = {
-               Box(
-                   Modifier
-                       .fillMaxWidth(),
-                   contentAlignment = Alignment.Center
-               ){
-                   ComposeAutoResizedText(
-                       text = dialogText,
-                       textAlign = TextAlign.Center,
-                       style = androidx.compose.material3.MaterialTheme.typography.bodyLarge)
-               }
+            Box(
+                Modifier
+                    .fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ){
+                ComposeAutoResizedText(
+                    text = context.getString(R.string.ad_interstitial_text),
+                    textAlign = TextAlign.Center,
+                    style = androidx.compose.material3.MaterialTheme.typography.bodyLarge)
+            }
         },
         buttons = {
             Box(
@@ -61,10 +64,10 @@ fun InfoAlertDialog(
                 contentAlignment = Alignment.Center
             ){
                 CustomButtonWithText(
-                    title = "DISMISS",
+                    title = "PLAY AD",
                     modifier = Modifier
                         .fillMaxWidth(0.8f)) {
-                    onDismissRequest()
+                    onClick()
                 }
             }
         },

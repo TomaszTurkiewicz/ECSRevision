@@ -31,6 +31,8 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     private var currentRevisionQuestion = 0
     private var oneAnswer = false
 
+    private var interstitialAdClicks = 0
+
 
     fun getAllQuestions(context:Context){
         val numberOfQuestions = SharedPreferences.getNumberOfQuestions(context)
@@ -50,6 +52,10 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
         coroutineScope.launch(Dispatchers.IO){
             questionDao.deleteAllQuestions()
         }
+    }
+
+    fun getClicks():Int{
+        return this.interstitialAdClicks
     }
 
     private fun sort(){
@@ -144,6 +150,7 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     fun nextRevisionQuestion(context: Context) {
         if (currentRevisionQuestion < list.size - 1) {
             currentRevisionQuestion += 1
+            increaseInterstitialAdClicks()
             saveCurrentRevisionQuestionToSharedPreferences(context)
         }
     }
@@ -158,7 +165,16 @@ class AppViewModel(private val questionDao: QuestionDao) : ViewModel() {
     fun previousRevisionQuestion(context: Context){
         if(currentRevisionQuestion > 0){
             currentRevisionQuestion -=1
+            increaseInterstitialAdClicks()
             saveCurrentRevisionQuestionToSharedPreferences(context)
+        }
+    }
+
+    private fun increaseInterstitialAdClicks(){
+        if(interstitialAdClicks<40) {
+            interstitialAdClicks += 1
+        }else{
+            interstitialAdClicks =0
         }
     }
 

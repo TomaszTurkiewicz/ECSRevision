@@ -1,5 +1,6 @@
 package com.tt.ecsrevision
 
+import android.app.Activity
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,7 +54,8 @@ fun ECSRevisionAppBar(
 @Composable
 fun ECSRevisionApp(
     viewModel: AppViewModel,
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    activity: MainActivity
 )
 {
     val context = LocalContext.current
@@ -104,6 +106,7 @@ fun ECSRevisionApp(
 
             composable(route = ECSRevisionScreen.Revision.name){
                 RevisionScreen(
+                    activity = activity,
                     context = context,
                     viewModel = viewModel,
                     question = uiState.question,
