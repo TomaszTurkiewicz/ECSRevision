@@ -95,6 +95,28 @@ class AppViewModel(
 
     }
 
+    fun getTestAnsweredQuestion(position:Int):Boolean{
+        return userTest[position].getUserAnsweredTheQuestion()
+    }
+
+    fun selectTestAnswer(answer:Int){
+        val a = userTest[currentTestQuestion].userAnswer
+        if(a == answer){
+            userTest[currentTestQuestion].setUserAnswerCurrent(0)
+        }else{
+            userTest[currentTestQuestion].setUserAnswerCurrent(answer)
+        }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                testQuestion = TestQuestion(
+                    userTest[currentTestQuestion].question,
+                    userTest[currentTestQuestion].userAnswer
+                )
+            )
+        }
+    }
+
     fun getTestTimeInt():Int{
         return this.testTime
     }
@@ -113,6 +135,10 @@ class AppViewModel(
                 rewardedAdWatched = true
             )
         }
+    }
+
+    fun getCurrentTestQuestionCounter():Int{
+        return this.currentTestQuestion
     }
 
     fun getTestNumberOfQuestions():Int{

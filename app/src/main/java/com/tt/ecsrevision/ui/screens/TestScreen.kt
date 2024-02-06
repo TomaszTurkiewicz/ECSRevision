@@ -29,7 +29,8 @@ fun TestScreen(
     rewardedAdLoaded:Boolean,
     rewardedAdWatched:Boolean,
     testListReady:Boolean,
-    testQuestion:TestQuestion
+    testQuestion:TestQuestion,
+    selectedAnswer:Int
 ) {
 
     when(testState){
@@ -45,7 +46,8 @@ fun TestScreen(
         TEST_RUN -> {
             TestRunScreen(
                 testQuestion = testQuestion,
-                viewModel = viewModel
+                viewModel = viewModel,
+                selectedAnswer = selectedAnswer
             )
         }
         TEST_SUMMARY -> {

@@ -138,7 +138,8 @@ fun ECSRevisionApp(
                     rewardedAdLoaded = uiState.rewardedApLoaded,
                     rewardedAdWatched = uiState.rewardedAdWatched,
                     testListReady = uiState.testListReady,
-                    testQuestion = uiState.testQuestion
+                    testQuestion = uiState.testQuestion,
+                    selectedAnswer = uiState.testQuestion.userAnswer
                 )
             }
         }

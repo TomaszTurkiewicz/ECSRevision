@@ -41,6 +41,7 @@ data class AppUiState(
             answerD = "d",
             correctAnswer = 0,
             info = "i"
-        )
+        ),
+        userAnswer = 0
     )
 )
