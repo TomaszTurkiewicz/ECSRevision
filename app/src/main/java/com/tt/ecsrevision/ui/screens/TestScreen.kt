@@ -15,6 +15,7 @@ import com.tt.ecsrevision.data.TEST_INTRO
 import com.tt.ecsrevision.data.TEST_RUN
 import com.tt.ecsrevision.data.TEST_SUMMARY
 import com.tt.ecsrevision.data.TEST_WRONG_ANSWERS
+import com.tt.ecsrevision.helpers.TestQuestion
 import com.tt.ecsrevision.ui.screens.test.TestIntroScreen
 import com.tt.ecsrevision.ui.screens.test.TestRunScreen
 import com.tt.ecsrevision.viewmodels.AppViewModel
@@ -27,8 +28,10 @@ fun TestScreen(
     activity: MainActivity,
     rewardedAdLoaded:Boolean,
     rewardedAdWatched:Boolean,
-    testListReady:Boolean
+    testListReady:Boolean,
+    testQuestion:TestQuestion
 ) {
+
     when(testState){
         TEST_INTRO -> {
             TestIntroScreen(
@@ -40,7 +43,10 @@ fun TestScreen(
             )
          }
         TEST_RUN -> {
-            TestRunScreen()
+            TestRunScreen(
+                testQuestion = testQuestion,
+                viewModel = viewModel
+            )
         }
         TEST_SUMMARY -> {
             //todo show summary screen asking to review wrong questions

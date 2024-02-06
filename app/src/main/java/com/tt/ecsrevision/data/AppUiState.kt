@@ -1,6 +1,7 @@
 package com.tt.ecsrevision.data
 
 import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.helpers.TestQuestion
 
 const val TEST_INTRO = 0
 const val TEST_RUN = 1
@@ -27,5 +28,19 @@ data class AppUiState(
     val testState:Int = TEST_INTRO,
     val rewardedApLoaded:Boolean = false,
     val rewardedAdWatched:Boolean = false,
-    val testListReady:Boolean = false
+    val testListReady:Boolean = false,
+    val testQuestion:TestQuestion = TestQuestion(
+        question = Question(
+            version = 0,
+            segment = 0,
+            number = 0,
+            question = "q",
+            answerA = "a",
+            answerB = "b",
+            answerC = "c",
+            answerD = "d",
+            correctAnswer = 0,
+            info = "i"
+        )
+    )
 )

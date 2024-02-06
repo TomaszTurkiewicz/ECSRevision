@@ -137,7 +137,8 @@ fun ECSRevisionApp(
                     activity = activity,
                     rewardedAdLoaded = uiState.rewardedApLoaded,
                     rewardedAdWatched = uiState.rewardedAdWatched,
-                    testListReady = uiState.testListReady
+                    testListReady = uiState.testListReady,
+                    testQuestion = uiState.testQuestion
                 )
             }
         }

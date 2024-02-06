@@ -47,6 +47,8 @@ class AppViewModel(
     private var currentRevisionQuestion = 0
     private var oneAnswer = false
 
+    private var currentTestQuestion = 0
+
     private var interstitialAdClicks = 0
 
 
@@ -348,6 +350,7 @@ class AppViewModel(
     }
 
     fun resetTest() {
+        currentTestQuestion = 0
         _uiState.update { currentState ->
             currentState.copy(
                 testState = TEST_INTRO,
@@ -358,6 +361,43 @@ class AppViewModel(
         }
     }
 
+    fun getCurrentTestQuestion(){
+        _uiState.update { currentState ->
+            currentState.copy(
+                testQuestion = userTest[currentTestQuestion]
+            )
+        }
+    }
+
+    fun isPreviousTestQuestion():Boolean{
+        return currentTestQuestion != 0
+    }
+
+    fun isLastTestQuestion():Boolean{
+        return currentTestQuestion == userTest.size-1
+    }
+
+    fun increaseTestCounter(){
+        if(currentTestQuestion<userTest.size-1){
+            currentTestQuestion +=1
+            _uiState.update { currentState ->
+                currentState.copy(
+                    testQuestion = userTest[currentTestQuestion]
+                )
+            }
+        }
+    }
+
+    fun decreaseTestCounter(){
+        if(currentTestQuestion>0){
+            currentTestQuestion -=1
+            _uiState.update { currentState ->
+                currentState.copy(
+                    testQuestion = userTest[currentTestQuestion]
+                )
+            }
+        }
+    }
 }
 
 class AppViewModelFactory(

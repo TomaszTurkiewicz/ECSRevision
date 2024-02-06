@@ -133,13 +133,15 @@ fun TestIntroScreen(
             contentAlignment = Alignment.Center
         ) {
 
-            if(rewardedAdWatched && (testListReady)){
+//            if(rewardedAdWatched && (testListReady)){
+            if(true){
                 CustomButtonWithText(
                     title = context.getString(R.string.start_test),
                     modifier = Modifier
                         .fillMaxHeight(0.5f)
                         .aspectRatio(3f)
                 ) {
+                    viewModel.getCurrentTestQuestion()
                     viewModel.goToTest()
                 }
             }
