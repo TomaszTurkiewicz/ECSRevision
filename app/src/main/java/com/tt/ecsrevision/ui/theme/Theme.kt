@@ -24,12 +24,14 @@ private val DarkMyColorPalette = CustomColorsPalette(
     material = darkColorScheme(),
     correctAnswerInner = DarkGreenInner,
     correctAnswerBorder = DarkGreenBorder,
+    buttonNotActive = LightGray
 )
 
 private val LightMyColorPalette = CustomColorsPalette(
     material = lightColorScheme(),
     correctAnswerInner = LightGreenInner,
-    correctAnswerBorder = LightGreenBorder
+    correctAnswerBorder = LightGreenBorder,
+    buttonNotActive = LightGray
 )
 
 val LocalColors = staticCompositionLocalOf { LightMyColorPalette }

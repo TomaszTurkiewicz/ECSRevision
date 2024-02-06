@@ -31,6 +31,7 @@ import java.util.concurrent.CancellationException
 fun CustomButtonWithText(
     title:String,
     modifier: Modifier,
+    visible:Boolean = true,
     onClick: () -> Unit
 ) {
 
@@ -38,11 +39,12 @@ fun CustomButtonWithText(
         mutableStateOf(false)
     }
 
-    var backgroundColor = MaterialTheme.myColors.secondary
+
+    var backgroundColor = if(visible)MaterialTheme.myColors.secondary else MaterialTheme.myColors.buttonNotActive
     val textColor = MaterialTheme.myColors.background
 
     if(touchedDown.value){
-        backgroundColor = MaterialTheme.myColors.tertiary
+        if(visible)backgroundColor = MaterialTheme.myColors.tertiary else MaterialTheme.myColors.buttonNotActive
     }
 
     Card (

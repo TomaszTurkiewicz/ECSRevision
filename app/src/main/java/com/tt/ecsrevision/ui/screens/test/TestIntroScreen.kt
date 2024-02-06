@@ -143,10 +143,11 @@ fun TestIntroScreen(
                 }
             } else {
                 CustomButtonWithText(
-                    title = "TEXT",
+                    title = "WATCH AD",
                     modifier = Modifier
                         .fillMaxHeight(0.5f)
-                        .aspectRatio(3f)
+                        .aspectRatio(3f),
+                    visible = false
                 ) {
                     Toast.makeText(activity, "NOT READY YET", Toast.LENGTH_SHORT).show()
                 }

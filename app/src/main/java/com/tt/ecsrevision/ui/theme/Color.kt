@@ -7,4 +7,6 @@ val LightGreenBorder = Color(0xFF2BEC00)
 val DarkGreenBorder = Color(0xFF126300)
 val DarkGreenInner = Color(0xFF203D1A)
 
-val blue = Color(0xFF9DD4FF)
+
+val LightGray = Color(0xFF8A8A8A)
+
