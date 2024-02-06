@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,6 +27,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.helpers.TestQuestion
+import com.tt.ecsrevision.ui.alertdialogs.EndOfTimeAlertDialog
 import com.tt.ecsrevision.ui.alertdialogs.NotAllAnsweredAlertDialog
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
@@ -36,6 +39,7 @@ import com.tt.ecsrevision.ui.screens.D
 import com.tt.ecsrevision.ui.shapes.AnsweredDot
 import com.tt.ecsrevision.ui.shapes.InfoIconShape
 import com.tt.ecsrevision.viewmodels.AppViewModel
+import kotlinx.coroutines.delay
 import org.checkerframework.checker.units.qual.C
 import java.nio.file.WatchEvent
 
@@ -50,6 +54,46 @@ fun TestRunScreen(
 
     val alertDialogNotAllAnswers = remember {
         mutableStateOf(false)
+    }
+
+    val alertDialogEndOfTime = remember {
+        mutableStateOf(false)
+    }
+
+    val time = viewModel.getTestTimeInt()
+    val t = time*60+2
+    val start = time*60
+
+    val timeLeft = remember {
+        mutableStateOf(t)
+    }
+
+    val tm = timeLeft.value/600
+    val m = (timeLeft.value/60)%10
+    val ts = (timeLeft.value%60)/10
+    val s = (timeLeft.value%60)%10
+
+    val stm = start/600
+    val sm = (start/60)%10
+    val sts = (start%60)/10
+    val ss = (start%60)%10
+
+    val timeString = if(timeLeft.value>start){
+        context.getString(R.string.time,stm,sm,sts,ss)
+    } else {
+        context.getString(R.string.time,tm,m,ts,s)
+    }
+
+
+    LaunchedEffect(key1 = timeLeft.value){
+        if(timeLeft.value==0){
+            alertDialogNotAllAnswers.value = false
+            alertDialogEndOfTime.value = true
+        }
+        while(timeLeft.value>0){
+            delay(1000L)
+            timeLeft.value -=1
+        }
     }
 
     Column(
@@ -75,8 +119,13 @@ fun TestRunScreen(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
-                        .fillMaxHeight()){
-                    // todo timer!!!
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center)
+                {
+                    ComposeAutoResizedText(
+                        text = timeString,
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.titleLarge)
                 }
 
                 Box(
@@ -281,6 +330,13 @@ fun TestRunScreen(
                 viewModel.goToSummary()
             }) {
             alertDialogNotAllAnswers.value = false
+        }
+    }
+
+    if(alertDialogEndOfTime.value){
+        EndOfTimeAlertDialog {
+            alertDialogEndOfTime.value = false
+            viewModel.goToSummary()
         }
     }
 

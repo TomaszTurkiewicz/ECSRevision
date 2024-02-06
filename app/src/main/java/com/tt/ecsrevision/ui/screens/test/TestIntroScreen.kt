@@ -133,8 +133,7 @@ fun TestIntroScreen(
             contentAlignment = Alignment.Center
         ) {
 
-//            if(rewardedAdWatched && (testListReady)){
-            if(true){
+            if(rewardedAdWatched && (testListReady)){
                 CustomButtonWithText(
                     title = context.getString(R.string.start_test),
                     modifier = Modifier
