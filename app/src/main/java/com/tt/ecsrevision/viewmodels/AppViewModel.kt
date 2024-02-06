@@ -15,6 +15,7 @@ import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.data.room.TestDao
 import com.tt.ecsrevision.data.room.TestTime
 import com.tt.ecsrevision.data.room.TestTimeDao
+import com.tt.ecsrevision.helpers.TestQuestion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 
 class AppViewModel(
@@ -38,6 +40,7 @@ class AppViewModel(
 
     private var list: MutableList<Question> = mutableListOf()
     private var testList:MutableList<Test> = mutableListOf()
+    private val userTest:MutableList<TestQuestion> = mutableListOf()
     private var passMark = 0
     private var testTime = 0
 
@@ -57,6 +60,37 @@ class AppViewModel(
              getAllQuestions(context)
             }
         }
+    }
+
+    fun prepareUserTest(){
+        userTest.clear()
+        val temporaryList:MutableList<TestQuestion> = mutableListOf()
+        testList.forEach{testListElement ->
+            val numberOfQuestionsInSegment = testListElement.numberOfQuestions
+            val segment = testListElement.segment
+            val segmentList = list.filter {
+                listItem -> listItem.segment == segment
+            }
+                .toMutableList()
+            for(i in 0..<numberOfQuestionsInSegment){
+                val random = Random.nextInt(segmentList.size)
+                temporaryList.add(TestQuestion(segmentList[random]))
+                segmentList.removeAt(random)
+            }
+        }
+
+        while (temporaryList.isNotEmpty()){
+            val random = Random.nextInt(temporaryList.size)
+            userTest.add(temporaryList[random])
+            temporaryList.removeAt(random)
+        }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                testListReady = true
+            )
+        }
+
     }
 
     fun getTestTimeInt():Int{
@@ -318,7 +352,8 @@ class AppViewModel(
             currentState.copy(
                 testState = TEST_INTRO,
                 rewardedAdWatched = false,
-                rewardedApLoaded = false
+                rewardedApLoaded = false,
+                testListReady = false
             )
         }
     }

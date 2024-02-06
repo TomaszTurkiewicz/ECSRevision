@@ -26,7 +26,8 @@ fun TestScreen(
     testState:Int,
     activity: MainActivity,
     rewardedAdLoaded:Boolean,
-    rewardedAdWatched:Boolean
+    rewardedAdWatched:Boolean,
+    testListReady:Boolean
 ) {
     when(testState){
         TEST_INTRO -> {
@@ -34,7 +35,8 @@ fun TestScreen(
                 viewModel = viewModel,
                 activity = activity,
                 rewardedAdLoaded = rewardedAdLoaded,
-                rewardedAdWatched = rewardedAdWatched
+                rewardedAdWatched = rewardedAdWatched,
+                testListReady = testListReady
             )
          }
         TEST_RUN -> {

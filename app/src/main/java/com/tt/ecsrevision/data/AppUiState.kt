@@ -26,5 +26,6 @@ data class AppUiState(
     val oneAnswer:Boolean = false,
     val testState:Int = TEST_INTRO,
     val rewardedApLoaded:Boolean = false,
-    val rewardedAdWatched:Boolean = false
+    val rewardedAdWatched:Boolean = false,
+    val testListReady:Boolean = false
 )
