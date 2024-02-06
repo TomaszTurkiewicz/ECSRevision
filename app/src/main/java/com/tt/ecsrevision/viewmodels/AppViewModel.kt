@@ -7,6 +7,7 @@ import com.tt.ecsrevision.data.AppUiState
 import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.TEST_INTRO
 import com.tt.ecsrevision.data.TEST_RUN
+import com.tt.ecsrevision.data.TEST_SUMMARY
 import com.tt.ecsrevision.data.room.PassMark
 import com.tt.ecsrevision.data.room.PassMarkDao
 import com.tt.ecsrevision.data.room.Question
@@ -115,6 +116,16 @@ class AppViewModel(
                 )
             )
         }
+    }
+
+    fun allTestAnswered():Boolean{
+        var allAnswered = true
+        for (i in userTest.indices){
+            if(userTest[i].userAnswer==0){
+                allAnswered = false
+            }
+        }
+        return allAnswered
     }
 
     fun getTestTimeInt():Int{
@@ -373,6 +384,14 @@ class AppViewModel(
                testState = TEST_RUN
            )
        }
+    }
+
+    fun goToSummary(){
+        _uiState.update { currentState ->
+            currentState.copy(
+                testState = TEST_SUMMARY
+            )
+        }
     }
 
     fun resetTest() {

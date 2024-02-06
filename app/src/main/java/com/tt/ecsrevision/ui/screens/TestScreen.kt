@@ -18,6 +18,7 @@ import com.tt.ecsrevision.data.TEST_WRONG_ANSWERS
 import com.tt.ecsrevision.helpers.TestQuestion
 import com.tt.ecsrevision.ui.screens.test.TestIntroScreen
 import com.tt.ecsrevision.ui.screens.test.TestRunScreen
+import com.tt.ecsrevision.ui.screens.test.TestSummary
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 @Composable
@@ -51,7 +52,7 @@ fun TestScreen(
             )
         }
         TEST_SUMMARY -> {
-            //todo show summary screen asking to review wrong questions
+            TestSummary()
         }
         TEST_WRONG_ANSWERS -> {
             // todo show all wrong questions

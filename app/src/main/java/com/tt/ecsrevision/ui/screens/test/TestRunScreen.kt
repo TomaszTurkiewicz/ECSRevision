@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.helpers.TestQuestion
+import com.tt.ecsrevision.ui.alertdialogs.NotAllAnsweredAlertDialog
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.ui.components.TestAnswerRow
@@ -47,6 +48,10 @@ fun TestRunScreen(
 
     val context = LocalContext.current
 
+    val alertDialogNotAllAnswers = remember {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -59,7 +64,7 @@ fun TestRunScreen(
                 .fillMaxWidth()
                 .fillMaxHeight(0.15f)
         ) {
-            //todo dots for answered / not answered questions and time and finish button
+
             //time and finish button
             Row(
                 modifier = Modifier
@@ -67,8 +72,32 @@ fun TestRunScreen(
                     .fillMaxHeight(2f / 3),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth(0.5f)
+                        .fillMaxHeight()){
+                    // todo timer!!!
+                }
 
-
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    contentAlignment = Alignment.Center
+                )
+                {
+                  CustomButtonWithText(
+                      title = context.getString(R.string.finish),
+                      modifier = Modifier
+                          .fillMaxWidth(0.8f)
+                          .fillMaxHeight(0.6f)) {
+                      if(viewModel.allTestAnswered()){
+                          viewModel.goToSummary()
+                      }else{
+                          alertDialogNotAllAnswers.value = true
+                      }
+                  }
+                }
             }
 
             val middle = if(viewModel.getTestNumberOfQuestions()%2==0){
@@ -245,4 +274,14 @@ fun TestRunScreen(
 
             }
         }
+    if(alertDialogNotAllAnswers.value){
+        NotAllAnsweredAlertDialog(
+            context = context,
+            onPositiveClick = {
+                viewModel.goToSummary()
+            }) {
+            alertDialogNotAllAnswers.value = false
+        }
+    }
+
     }
