@@ -7,12 +7,15 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.ump.ConsentInformation
 import com.google.android.ump.ConsentRequestParameters
 import com.google.android.ump.UserMessagingPlatform
@@ -35,6 +38,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private var mInterstitialAd:InterstitialAd? = null
+    private var mRewardedAd: RewardedAd? = null
 
     private lateinit var consentInformation: ConsentInformation
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
@@ -124,6 +128,60 @@ class MainActivity : ComponentActivity() {
                 mInterstitialAd = interstitialAd
             }
         })
+    }
+
+    fun loadRewardedAd(){
+        val rewardedAdId: String = if(TEST) this.getString(R.string.test_rewarded_ad) else this.getString(R.string.admob_rewarded_ad)
+        val adRequest = AdRequest.Builder().build()
+        RewardedAd.load(this,rewardedAdId,adRequest, object : RewardedAdLoadCallback(){
+            override fun onAdFailedToLoad(error: LoadAdError) {
+                super.onAdFailedToLoad(error)
+                mRewardedAd = null
+            }
+
+            override fun onAdLoaded(ad: RewardedAd) {
+                super.onAdLoaded(ad)
+                mRewardedAd = ad
+                viewModel.rewardedApLoaded()
+            }
+        })
+    }
+
+    fun showRewardedAd(){
+        mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback(){
+            override fun onAdClicked() {
+                super.onAdClicked()
+                // do nothing
+            }
+
+            override fun onAdDismissedFullScreenContent() {
+                super.onAdDismissedFullScreenContent()
+                //todo navigate up?
+            }
+
+            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                super.onAdFailedToShowFullScreenContent(p0)
+                // do nothing
+            }
+
+            override fun onAdImpression() {
+                super.onAdImpression()
+                // do nothing
+            }
+
+            override fun onAdShowedFullScreenContent() {
+                super.onAdShowedFullScreenContent()
+                mRewardedAd = null
+            }
+        }
+
+        mRewardedAd?.let {
+            it.show(this){
+                mRewardedAd = null
+                viewModel.rewardedAdWatched()
+            }
+        }
+
     }
 
     fun showInterstitialAd(){

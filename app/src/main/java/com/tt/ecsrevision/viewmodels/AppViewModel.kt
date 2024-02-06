@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.tt.ecsrevision.data.AppUiState
 import com.tt.ecsrevision.data.SharedPreferences
+import com.tt.ecsrevision.data.TEST_INTRO
+import com.tt.ecsrevision.data.TEST_RUN
 import com.tt.ecsrevision.data.room.PassMark
 import com.tt.ecsrevision.data.room.PassMarkDao
 import com.tt.ecsrevision.data.room.Question
@@ -59,6 +61,22 @@ class AppViewModel(
 
     fun getTestTimeInt():Int{
         return this.testTime
+    }
+
+    fun rewardedApLoaded(){
+        _uiState.update { currentState ->
+            currentState.copy(
+                rewardedApLoaded = true
+            )
+        }
+    }
+
+    fun rewardedAdWatched(){
+        _uiState.update { currentState ->
+            currentState.copy(
+                rewardedAdWatched = true
+            )
+        }
     }
 
     fun getTestNumberOfQuestions():Int{
@@ -285,6 +303,24 @@ class AppViewModel(
 
     fun isRevisionLastQuestion():Boolean{
         return currentRevisionQuestion == list.size-1
+    }
+
+    fun goToTest() {
+       _uiState.update { currentState ->
+           currentState.copy(
+               testState = TEST_RUN
+           )
+       }
+    }
+
+    fun resetTest() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                testState = TEST_INTRO,
+                rewardedAdWatched = false,
+                rewardedApLoaded = false
+            )
+        }
     }
 
 }

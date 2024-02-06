@@ -27,11 +27,14 @@ import com.tt.ecsrevision.viewmodels.AppViewModel
 
 @Composable
 fun ChooserScreen(
+    viewModel: AppViewModel,
     moveToRevision: () -> Unit,
     moveToTest: () -> Unit,
     moveToOtherApps: () -> Unit
 )
 {
+    viewModel.resetTest()
+
     val buttonAspectRatio = 3f
     val widthRatio = 0.5f
     val context = LocalContext.current

@@ -9,28 +9,36 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavController
+import com.tt.ecsrevision.MainActivity
 import com.tt.ecsrevision.TEST
 import com.tt.ecsrevision.data.TEST_INTRO
 import com.tt.ecsrevision.data.TEST_RUN
 import com.tt.ecsrevision.data.TEST_SUMMARY
 import com.tt.ecsrevision.data.TEST_WRONG_ANSWERS
 import com.tt.ecsrevision.ui.screens.test.TestIntroScreen
+import com.tt.ecsrevision.ui.screens.test.TestRunScreen
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 @Composable
 fun TestScreen(
     viewModel:AppViewModel,
     navController: NavController,
-    testState:Int
+    testState:Int,
+    activity: MainActivity,
+    rewardedAdLoaded:Boolean,
+    rewardedAdWatched:Boolean
 ) {
     when(testState){
         TEST_INTRO -> {
             TestIntroScreen(
-                viewModel = viewModel
+                viewModel = viewModel,
+                activity = activity,
+                rewardedAdLoaded = rewardedAdLoaded,
+                rewardedAdWatched = rewardedAdWatched
             )
          }
         TEST_RUN -> {
-            // todo take test
+            TestRunScreen()
         }
         TEST_SUMMARY -> {
             //todo show summary screen asking to review wrong questions

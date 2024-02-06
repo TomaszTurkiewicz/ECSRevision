@@ -106,6 +106,7 @@ fun ECSRevisionApp(
 
             composable(route = ECSRevisionScreen.Chooser.name){
                 ChooserScreen(
+                    viewModel = viewModel,
                     moveToRevision = {
                         navController.navigate(ECSRevisionScreen.Revision.name)
                     },
@@ -132,7 +133,10 @@ fun ECSRevisionApp(
                 TestScreen(
                     viewModel = viewModel,
                     navController = navController,
-                    testState = uiState.testState
+                    testState = uiState.testState,
+                    activity = activity,
+                    rewardedAdLoaded = uiState.rewardedApLoaded,
+                    rewardedAdWatched = uiState.rewardedAdWatched
                 )
             }
         }
