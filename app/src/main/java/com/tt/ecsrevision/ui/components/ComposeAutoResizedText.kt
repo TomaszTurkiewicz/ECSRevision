@@ -21,7 +21,7 @@ fun ComposeAutoResizedText(
     textAlign: TextAlign,
 ) {
 
-    var currentStyle:TextStyle = style
+    val currentStyle:TextStyle = style
 
     var resizedTextStyle by remember(text) {
         mutableStateOf(currentStyle)

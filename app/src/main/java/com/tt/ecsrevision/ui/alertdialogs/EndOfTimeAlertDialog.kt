@@ -1,5 +1,6 @@
 package com.tt.ecsrevision.ui.alertdialogs
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,12 +13,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.tt.ecsrevision.R
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.ui.theme.myColors
 
 @Composable
 fun EndOfTimeAlertDialog(
+    context: Context,
     onClick: () -> Unit
 ) {
     AlertDialog(
@@ -29,7 +32,7 @@ fun EndOfTimeAlertDialog(
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f)){
                 ComposeAutoResizedText(
-                    text = "SORRY",
+                    text = context.getString(R.string.sorry),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge,
                     modifier = Modifier
@@ -43,7 +46,7 @@ fun EndOfTimeAlertDialog(
                 contentAlignment = Alignment.Center
             ){
                 ComposeAutoResizedText(
-                    text = "YOU RUN OUT OF TIME",
+                    text = context.getString(R.string.out_of_time),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.bodyLarge)
             }
@@ -57,7 +60,7 @@ fun EndOfTimeAlertDialog(
                 contentAlignment = Alignment.Center
             ){
                 CustomButtonWithText(
-                    title = "OK",
+                    title = context.getString(R.string.ok),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)) {
                     onClick()

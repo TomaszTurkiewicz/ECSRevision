@@ -61,7 +61,7 @@ fun TestRunScreen(
     }
 
     val time = viewModel.getTestTimeInt()
-    val t = time*60+2
+    val t = time*60+1
     val start = time*60
 
     val timeLeft = remember {
@@ -334,7 +334,9 @@ fun TestRunScreen(
     }
 
     if(alertDialogEndOfTime.value){
-        EndOfTimeAlertDialog {
+        EndOfTimeAlertDialog(
+            context
+        ) {
             alertDialogEndOfTime.value = false
             viewModel.goToSummary()
         }

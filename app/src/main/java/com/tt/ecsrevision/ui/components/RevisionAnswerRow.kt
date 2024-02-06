@@ -73,7 +73,6 @@ fun RevisionAnswerRow(
                 .fillMaxHeight(),
                 contentAlignment = Alignment.Center){
 
-                //todo show button only if info not null or ""...
                 if(info.isNotEmpty()) {
                     ButtonWithIcon(
                         modifier = Modifier.fillMaxWidth(0.8f),

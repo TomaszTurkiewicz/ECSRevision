@@ -36,7 +36,7 @@ fun InterstitialAdAlertDialog(
                     .fillMaxHeight(0.2f)
                 ){
                     ComposeAutoResizedText(
-                        text = "AD",
+                        text = context.getString(R.string.ad),
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.titleLarge,
                         modifier = Modifier
@@ -52,7 +52,7 @@ fun InterstitialAdAlertDialog(
                 ComposeAutoResizedText(
                     text = context.getString(R.string.ad_interstitial_text),
                     textAlign = TextAlign.Center,
-                    style = androidx.compose.material3.MaterialTheme.typography.bodyLarge)
+                    style = MaterialTheme.typography.bodyLarge)
             }
         },
         buttons = {
@@ -64,14 +64,14 @@ fun InterstitialAdAlertDialog(
                 contentAlignment = Alignment.Center
             ){
                 CustomButtonWithText(
-                    title = "PLAY AD",
+                    title = context.getString(R.string.watch_ad),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)) {
                     onClick()
                 }
             }
         },
-        backgroundColor = androidx.compose.material3.MaterialTheme.myColors.primaryContainer,
+        backgroundColor = MaterialTheme.myColors.primaryContainer,
         shape = RoundedCornerShape(30.dp)
     )
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.tt.ecsrevision.R
 
 @Database(
     entities = [Question::class, Test::class, PassMark::class, TestTime::class],
@@ -26,7 +27,7 @@ abstract class QuestionDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     QuestionDatabase::class.java,
-                    "questions_database"
+                    context.getString(R.string.questions_database)
                 )
                     .fallbackToDestructiveMigration()
                     .build()

@@ -244,7 +244,8 @@ fun RevisionScreen(
             onDismissRequest = {
                 alertDialogInfo.value = false
                                },
-            dialogText = question.info
+            dialogText = question.info,
+            context = context
         )
 
     }

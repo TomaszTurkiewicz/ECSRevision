@@ -1,6 +1,7 @@
 package com.tt.ecsrevision.ui.alertdialogs
 
 
+import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.tt.ecsrevision.R
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.ui.theme.myColors
@@ -21,7 +23,8 @@ import com.tt.ecsrevision.ui.theme.myColors
 @Composable
 fun InfoAlertDialog(
     onDismissRequest: () -> Unit,
-    dialogText:String
+    dialogText:String,
+    context: Context
 ) {
     AlertDialog(
         onDismissRequest = {
@@ -32,7 +35,7 @@ fun InfoAlertDialog(
                 .fillMaxWidth()
                 .fillMaxHeight(0.2f)){
                 ComposeAutoResizedText(
-                    text = "INFO",
+                    text = context.getString(R.string.info),
                     textAlign = TextAlign.Center,
                     style = androidx.compose.material3.MaterialTheme.typography.titleLarge,
                     modifier = Modifier
@@ -60,7 +63,7 @@ fun InfoAlertDialog(
                 contentAlignment = Alignment.Center
             ){
                 CustomButtonWithText(
-                    title = "DISMISS",
+                    title = context.getString(R.string.dismiss),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)) {
                     onDismissRequest()
