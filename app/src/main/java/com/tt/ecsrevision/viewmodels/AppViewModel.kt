@@ -43,8 +43,8 @@ class AppViewModel(
     private var list: MutableList<Question> = mutableListOf()
     private var testList:MutableList<Test> = mutableListOf()
     private val userTest:MutableList<TestQuestion> = mutableListOf()
-    private var passMark = 0
-    private var testTime = 0
+    private var passMark = PassMark()
+    private var testTime = TestTime()
 
     private var userWrongAnswersList:MutableList<TestQuestion> = mutableListOf()
 
@@ -69,7 +69,7 @@ class AppViewModel(
     }
 
     fun getUserTestTime():Int{
-        val fullTime = testTime * 60
+        val fullTime = testTime.testTime * 60
         return fullTime-userTestTimeLeft
     }
 
@@ -160,7 +160,7 @@ class AppViewModel(
     }
 
     fun getTestTimeInt():Int{
-        return this.testTime
+        return this.testTime.testTime
     }
 
     fun rewardedApLoaded(){
@@ -192,7 +192,7 @@ class AppViewModel(
     }
 
     fun getTestPass():Boolean{
-        return userScore>=passMark
+        return userScore>=passMark.passMark
     }
 
     fun getAllQuestionsRight():Boolean{
@@ -200,7 +200,7 @@ class AppViewModel(
     }
 
     fun getPassMarkInt():Int{
-        return this.passMark
+        return this.passMark.passMark
     }
 
     fun getAllTest(context: Context){
@@ -221,7 +221,7 @@ class AppViewModel(
 
     fun getPassMark(){
         coroutineScope.launch(Dispatchers.IO) {
-        passMark = passMarkDao.getPassMark().passMark
+        passMark = passMarkDao.getPassMark()
         _uiState.update { currentState ->
             currentState.copy(
                 passMarkReady = true
@@ -231,8 +231,9 @@ class AppViewModel(
     }
 
     fun getTestTime(){
+
         coroutineScope.launch(Dispatchers.IO) {
-            testTime = testTimeDao.getTestTime().testTime
+            testTime = testTimeDao.getTestTime()
             _uiState.update { currentState ->
                 currentState.copy(
                     testTimeReady = true
@@ -532,6 +533,7 @@ class AppViewModel(
     }
 
 
+
 }
 
 class AppViewModelFactory(
@@ -543,7 +545,10 @@ class AppViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(AppViewModel::class.java)){
             @Suppress("UNCHECKED_CAST")
-            return AppViewModel(questionDao,testDao,passMarkDao,testTimeDao) as T
+            return AppViewModel(questionDao = questionDao,
+                testDao = testDao,
+                passMarkDao = passMarkDao,
+                testTimeDao = testTimeDao) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

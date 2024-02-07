@@ -91,7 +91,7 @@ fun WelcomeScreen(
 //            )
         }
 
-        LaunchedEffect(key1 = 1) {
+        LaunchedEffect(key1 = databaseNumber) {
             checkDatabase(context, databaseNumber, viewModel)
         }
     }
@@ -106,10 +106,12 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
             val fNumber = snapshot.getValue(Int::class.java)
             if(fNumber!=null){
                 if(fNumber==spNumber){
-                    viewModel.getAllQuestions(context)
-                    viewModel.getAllTest(context)
-                    viewModel.getPassMark()
-                    viewModel.getTestTime()
+                        viewModel.getAllQuestions(context)
+                        viewModel.getAllTest(context)
+                        viewModel.getPassMark()
+                        viewModel.getTestTime()
+
+
 
                     // for creating question template
 //                    createQuestions(context,2)
@@ -261,7 +263,8 @@ private fun savePassMarkToRoomDatabase(viewModel: AppViewModel,context: Context,
     viewModel.insertPassMArk(passMark = DatabaseConverter.passMarkFirebaseToRoom(passMark))
     testPassMarkDB = true
     saveDatabaseNumber(viewModel,context,fNumber)
-    viewModel.getPassMark()
+    //todo
+//    viewModel.getPassMark()
 
 }
 
@@ -269,7 +272,8 @@ private fun saveTestTimeToRoomDatabase(viewModel: AppViewModel,context: Context,
     viewModel.insertTestTime(testTime = DatabaseConverter.passTestTimeFirebaseToRoom(testTime))
     testTimeDB = true
     saveDatabaseNumber(viewModel,context,fNumber)
-    viewModel.getTestTime()
+    //todo
+//    viewModel.getTestTime()
 
 }
 
@@ -281,7 +285,8 @@ private fun saveTestToRoomDatabase(viewModel:AppViewModel, context: Context, fNu
     }else{
         testDB = true
         saveDatabaseNumber(viewModel,context,fNumber)
-        viewModel.getAllTest(context)
+        //todo
+//        viewModel.getAllTest(context)
     }
 }
 
@@ -294,7 +299,8 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
     }else{
         revisionDB = true
         saveDatabaseNumber(viewModel,context,fNumber)
-        viewModel.getAllQuestions(context)
+        //todo
+//        viewModel.getAllQuestions(context)
         viewModel.initializeCurrentRevisionQuestion(context)
     }
 }
