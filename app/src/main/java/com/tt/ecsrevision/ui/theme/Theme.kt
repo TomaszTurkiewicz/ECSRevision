@@ -55,6 +55,7 @@ fun ECSRevisionTheme(
 //    }
     CompositionLocalProvider(LocalColors provides colors){
         MaterialTheme (
+            typography = TtTypography,
             colorScheme = colors.material,
             content = content
         )

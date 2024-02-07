@@ -1,5 +1,6 @@
 package com.tt.ecsrevision.viewmodels
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -20,6 +21,7 @@ import com.tt.ecsrevision.data.room.TestTimeDao
 import com.tt.ecsrevision.helpers.TestQuestion
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -160,7 +162,7 @@ class AppViewModel(
     }
 
     fun getTestTimeInt():Int{
-        return this.testTime.testTime
+        return testTime.testTime
     }
 
     fun rewardedApLoaded(){
@@ -219,33 +221,50 @@ class AppViewModel(
         }
     }
 
-    fun getPassMark(){
+    @SuppressLint("SuspiciousIndentation")
+    fun getTestTime(){
         coroutineScope.launch(Dispatchers.IO) {
-        passMark = passMarkDao.getPassMark()
-        _uiState.update { currentState ->
-            currentState.copy(
-                passMarkReady = true
-            )
-        }
+            testTime = testTimeDao.getTestTime()
+            checkTestTimeReady()
         }
     }
 
-    fun getTestTime(){
-
+    @SuppressLint("SuspiciousIndentation")
+    fun getPassMark(){
         coroutineScope.launch(Dispatchers.IO) {
-            testTime = testTimeDao.getTestTime()
-            _uiState.update { currentState ->
-                currentState.copy(
-                    testTimeReady = true
-                )
+            passMark = passMarkDao.getPassMark()
+            checkPassMarkReady()
+        }
+    }
+
+    private fun checkPassMarkReady() {
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                passMark.passMark
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        passMarkReady = true
+                    )
+                }
+            }catch (e:Exception){
+                delay(100L)
+                checkPassMarkReady()
             }
         }
     }
 
-
-    fun nukeTable(){
-        coroutineScope.launch(Dispatchers.IO){
-            questionDao.deleteAllQuestions()
+    private fun checkTestTimeReady() {
+        coroutineScope.launch(Dispatchers.IO) {
+            try {
+                testTime.testTime
+                _uiState.update { currentState ->
+                    currentState.copy(
+                        testTimeReady = true
+                    )
+                }
+            }catch (e:Exception){
+                checkTestTimeReady()
+            }
         }
     }
 

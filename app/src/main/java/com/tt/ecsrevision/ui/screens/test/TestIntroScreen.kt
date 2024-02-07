@@ -121,6 +121,7 @@ fun TestIntroScreen(
             ComposeAutoResizedText(
                 text = if(rewardedAdWatched && (testListReady)) context.getString(R.string.test_intro_good_luck) else context.getString(R.string.test_intro_explanation),
                 textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier
                     .padding(10.dp))
         }

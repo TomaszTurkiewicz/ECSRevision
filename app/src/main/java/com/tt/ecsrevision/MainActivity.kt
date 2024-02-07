@@ -3,11 +3,9 @@ package com.tt.ecsrevision
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -149,25 +147,6 @@ class MainActivity : ComponentActivity() {
 
     fun showRewardedAd(){
         mRewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback(){
-            override fun onAdClicked() {
-                super.onAdClicked()
-                // do nothing
-            }
-
-            override fun onAdDismissedFullScreenContent() {
-                super.onAdDismissedFullScreenContent()
-                //todo navigate up?
-            }
-
-            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                super.onAdFailedToShowFullScreenContent(p0)
-                // do nothing
-            }
-
-            override fun onAdImpression() {
-                super.onAdImpression()
-                // do nothing
-            }
 
             override fun onAdShowedFullScreenContent() {
                 super.onAdShowedFullScreenContent()

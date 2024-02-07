@@ -40,8 +40,6 @@ enum class ECSRevisionScreen(@StringRes val title:Int) {
 @Composable
 fun ECSRevisionAppBar(
     currentScreen: ECSRevisionScreen,
-    canNavigateBack: Boolean,
-    navigateUp: () -> Unit,
     modifier: Modifier = Modifier
 ){
     TopAppBar(
@@ -81,9 +79,7 @@ fun ECSRevisionApp(
     Scaffold(
         topBar = {
             ECSRevisionAppBar(
-                currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp()})
+                currentScreen = currentScreen)
         }
     ) { innerPadding ->
         val uiState by viewModel.uiState.collectAsState()
