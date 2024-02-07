@@ -2,12 +2,19 @@ package com.tt.ecsrevision.ui.screens
 
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -23,6 +30,8 @@ import com.tt.ecsrevision.data.firebase.TestTimeFirebase
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.helpers.DatabaseConverter
+import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
+import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 var currentPosition = 0
@@ -46,21 +55,46 @@ fun WelcomeScreen(
         moveToNext()
     }else {
 
-        Column {
-            Text(
-                text = "LOADING"
-            )
-            Text(
-                text = databaseNumber.toString()
-            )
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.33f),
+                contentAlignment = Alignment.Center
+            ){
+                ComposeAutoResizedText(
+                    text = context.getString(R.string.welcome),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.titleLarge)
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.5f),
+                contentAlignment = Alignment.Center
+            ){
+                ComposeAutoResizedText(
+                    text = context.getString(R.string.checking_database,databaseNumber),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge)
+            }
+
+//            Text(
+//                text = "LOADING"
+//            )
+//            Text(
+//                text = databaseNumber.toString()
+//            )
         }
 
         LaunchedEffect(key1 = 1) {
             checkDatabase(context, databaseNumber, viewModel)
         }
-
     }
-
 }
 
 
