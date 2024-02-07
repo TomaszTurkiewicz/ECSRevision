@@ -19,6 +19,7 @@ import com.tt.ecsrevision.helpers.TestQuestion
 import com.tt.ecsrevision.ui.screens.test.TestIntroScreen
 import com.tt.ecsrevision.ui.screens.test.TestRunScreen
 import com.tt.ecsrevision.ui.screens.test.TestSummary
+import com.tt.ecsrevision.ui.screens.test.WrongAnswersScreen
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 @Composable
@@ -52,10 +53,17 @@ fun TestScreen(
             )
         }
         TEST_SUMMARY -> {
-            TestSummary()
+            TestSummary(
+                viewModel = viewModel,
+                navController = navController
+            )
         }
         TEST_WRONG_ANSWERS -> {
-            // todo show all wrong questions
+            WrongAnswersScreen(
+                testQuestion = testQuestion,
+                viewModel = viewModel,
+                navController = navController
+            )
         }
     }
 }

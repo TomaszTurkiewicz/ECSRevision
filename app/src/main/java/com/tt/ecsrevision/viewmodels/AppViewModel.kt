@@ -8,6 +8,7 @@ import com.tt.ecsrevision.data.SharedPreferences
 import com.tt.ecsrevision.data.TEST_INTRO
 import com.tt.ecsrevision.data.TEST_RUN
 import com.tt.ecsrevision.data.TEST_SUMMARY
+import com.tt.ecsrevision.data.TEST_WRONG_ANSWERS
 import com.tt.ecsrevision.data.room.PassMark
 import com.tt.ecsrevision.data.room.PassMarkDao
 import com.tt.ecsrevision.data.room.Question
@@ -45,14 +46,36 @@ class AppViewModel(
     private var passMark = 0
     private var testTime = 0
 
+    private var userWrongAnswersList:MutableList<TestQuestion> = mutableListOf()
+
+
+    private var userTestTimeLeft = 0
+
     private var currentRevisionQuestion = 0
     private var oneAnswer = false
 
     private var currentTestQuestion = 0
+    private var currentWrongQuestion = 0
 
     private var interstitialAdClicks = 0
 
+    private var userScore = 0
+    fun getUserScore():Int {
+        userWrongAnswersList = userTest.filter {
+            it.question.correctAnswer != it.userAnswer
+        }.toMutableList()
+        userScore = userTest.size-userWrongAnswersList.size
+        return userScore
+    }
 
+    fun getUserTestTime():Int{
+        val fullTime = testTime * 60
+        return fullTime-userTestTimeLeft
+    }
+
+    fun saveUserTestTimeLeft(timeLeft:Int){
+        this.userTestTimeLeft = timeLeft
+    }
     fun getAllQuestions(context:Context){
         val numberOfQuestions = SharedPreferences.getNumberOfQuestions(context)
         coroutineScope.launch(Dispatchers.IO) {
@@ -96,6 +119,14 @@ class AppViewModel(
 
     }
 
+
+    fun moveToWrongAnswersReview() {
+        _uiState.update { currentState ->
+            currentState.copy(
+                testState = TEST_WRONG_ANSWERS
+            )
+        }
+    }
     fun getTestAnsweredQuestion(position:Int):Boolean{
         return userTest[position].getUserAnsweredTheQuestion()
     }
@@ -158,6 +189,14 @@ class AppViewModel(
             sum += it.numberOfQuestions
         }
         return sum
+    }
+
+    fun getTestPass():Boolean{
+        return userScore>=passMark
+    }
+
+    fun getAllQuestionsRight():Boolean{
+        return userScore==userTest.size
     }
 
     fun getPassMarkInt():Int{
@@ -418,8 +457,16 @@ class AppViewModel(
         return currentTestQuestion != 0
     }
 
+    fun isPreviousWrongQuestion():Boolean{
+        return currentWrongQuestion != 0
+    }
+
     fun isLastTestQuestion():Boolean{
         return currentTestQuestion == userTest.size-1
+    }
+
+    fun isLastWrongQuestion():Boolean{
+        return currentWrongQuestion == userWrongAnswersList.size-1
     }
 
     fun increaseTestCounter(){
@@ -428,6 +475,17 @@ class AppViewModel(
             _uiState.update { currentState ->
                 currentState.copy(
                     testQuestion = userTest[currentTestQuestion]
+                )
+            }
+        }
+    }
+
+    fun increaseWrongCounter(){
+        if(currentWrongQuestion<userWrongAnswersList.size-1){
+            currentWrongQuestion +=1
+            _uiState.update { currentState ->
+                currentState.copy(
+                    testQuestion = userWrongAnswersList[currentWrongQuestion]
                 )
             }
         }
@@ -443,6 +501,37 @@ class AppViewModel(
             }
         }
     }
+
+    fun decreaseWrongCounter(){
+        if(currentWrongQuestion>0){
+            currentWrongQuestion -=1
+            _uiState.update { currentState ->
+                currentState.copy(
+                    testQuestion = userWrongAnswersList[currentWrongQuestion]
+                )
+            }
+        }
+    }
+
+    fun showFirstWrongQuestion() {
+        this.currentWrongQuestion = 0
+        _uiState.update { currentState ->
+            currentState.copy(
+                testQuestion = userWrongAnswersList[currentWrongQuestion]
+            )
+        }
+    }
+
+    fun getWrongAnswersCounter(): Int {
+        return userWrongAnswersList.size
+
+    }
+
+    fun getCurrentWrongQuestionCounter(): Int {
+        return this.currentWrongQuestion+1
+    }
+
+
 }
 
 class AppViewModelFactory(

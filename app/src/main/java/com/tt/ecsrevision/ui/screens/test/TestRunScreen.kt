@@ -60,9 +60,11 @@ fun TestRunScreen(
     }
 
     val timeString = if(timeLeft.value>start){
-        TimeConverter.getClock(start,context)
+//        TimeConverter.getClock(start,context)
+        TimeConverter.getTimeWrappedInString(context,R.string.time,start)
     } else {
-        TimeConverter.getClock(timeLeft.value,context)
+//        TimeConverter.getClock(timeLeft.value,context)
+        TimeConverter.getTimeWrappedInString(context,R.string.time,timeLeft.value)
     }
 
 
@@ -122,6 +124,7 @@ fun TestRunScreen(
                           .fillMaxWidth(0.8f)
                           .fillMaxHeight(0.6f)) {
                       if(viewModel.allTestAnswered()){
+                          viewModel.saveUserTestTimeLeft(timeLeft.value)
                           viewModel.goToSummary()
                       }else{
                           alertDialogNotAllAnswers.value = true
@@ -308,6 +311,7 @@ fun TestRunScreen(
         NotAllAnsweredAlertDialog(
             context = context,
             onPositiveClick = {
+                viewModel.saveUserTestTimeLeft(timeLeft.value)
                 viewModel.goToSummary()
             }) {
             alertDialogNotAllAnswers.value = false
@@ -319,6 +323,7 @@ fun TestRunScreen(
             context
         ) {
             alertDialogEndOfTime.value = false
+            viewModel.saveUserTestTimeLeft(timeLeft.value)
             viewModel.goToSummary()
         }
     }
