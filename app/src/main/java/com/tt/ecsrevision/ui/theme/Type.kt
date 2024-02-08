@@ -1,6 +1,7 @@
 package com.tt.ecsrevision.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -22,7 +23,8 @@ val TtTypography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 20.sp,
         lineHeight = 30.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = Color.Black
     ),
 
     /** for important text
@@ -34,7 +36,8 @@ val TtTypography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 22.sp,
         lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 0.sp,
+        color = Color.Black
     ),
 
     /** for
@@ -44,7 +47,8 @@ val TtTypography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 40.sp,
         lineHeight = 50.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = Color.Black
     ),
 
     /** for
@@ -55,7 +59,8 @@ val TtTypography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 40.sp,
         lineHeight = 50.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.5.sp,
+        color = Color.Black
     )
 
     /* Other default text styles to override

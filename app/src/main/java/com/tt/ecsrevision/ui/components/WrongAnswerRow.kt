@@ -2,7 +2,6 @@ package com.tt.ecsrevision.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -27,7 +26,7 @@ fun WrongAnswerRow(
     correct:Boolean
 ) {
     val borderColor = if(selected){
-        MaterialTheme.myColors.error
+        MaterialTheme.myColors.wrongAnswerBorder
     }else if (correct){
         MaterialTheme.myColors.correctAnswerBorder
     }else{
@@ -35,7 +34,7 @@ fun WrongAnswerRow(
     }
 
     val backgroundColor = if(selected){
-        MaterialTheme.myColors.errorContainer
+        MaterialTheme.myColors.wrongAnswerInner
     }else if (correct){
         MaterialTheme.myColors.correctAnswerInner
     }else{

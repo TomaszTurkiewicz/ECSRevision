@@ -3,7 +3,6 @@ package com.tt.ecsrevision.ui.theme
 
 
 
-import android.provider.CalendarContract
 import androidx.compose.material3.ColorScheme
 import androidx.compose.ui.graphics.Color
 import javax.annotation.concurrent.Immutable
@@ -13,9 +12,14 @@ data class CustomColorsPalette(
     val material: ColorScheme,
     val correctAnswerInner: Color,
     val correctAnswerBorder: Color,
+    val wrongAnswerInner: Color,
+    val wrongAnswerBorder: Color,
     val buttonNotActive: Color,
     val primaryDark:Color,
-    val primaryLight:Color
+    val primaryLight:Color,
+    val text:Color,
+    val textGreen:Color,
+    val textRed:Color
 ){
     val primary:Color get() = material.primary
     val onPrimary:Color get() = material.onPrimary

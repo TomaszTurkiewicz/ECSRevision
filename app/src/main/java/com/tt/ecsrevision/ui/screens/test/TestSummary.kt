@@ -95,7 +95,7 @@ fun TestSummary(
                     else context.getString(R.string.failed),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.headlineLarge.copy(
-                        color = if(viewModel.getTestPass()) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.myColors.error
+                        color = if(viewModel.getTestPass()) MaterialTheme.myColors.textGreen else MaterialTheme.myColors.textRed
                     )
                 )
             }

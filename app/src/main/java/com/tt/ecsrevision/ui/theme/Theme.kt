@@ -23,15 +23,20 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkMyColorPalette = CustomColorsPalette(
     material = darkColorScheme(
-        primary = Orange500,
-        primaryContainer = Orange100,
-        background = Orange50
+        primary = Orange500Dark,
+        primaryContainer = Orange100Dark,
+        background = Orange50Dark
     ),
-    correctAnswerInner = DarkGreenInner,
-    correctAnswerBorder = DarkGreenBorder,
-    buttonNotActive = LightGray,
-    primaryDark = Orange700,
-    primaryLight = Orange200
+    correctAnswerInner = Green50Dark,
+    correctAnswerBorder = Green200Dark,
+    buttonNotActive = LightGrayDark,
+    primaryDark = Orange700Dark,
+    primaryLight = Orange200Dark,
+    text = Black,
+    wrongAnswerBorder = Red200Dark,
+    wrongAnswerInner = Red50Dark,
+    textGreen = Green500Dark,
+    textRed = Red500Dark
 )
 
 private val LightMyColorPalette = CustomColorsPalette(
@@ -40,11 +45,16 @@ private val LightMyColorPalette = CustomColorsPalette(
         primaryContainer = Orange100,
         background = Orange50
     ),
-    correctAnswerInner = LightGreenInner,
-    correctAnswerBorder = LightGreenBorder,
+    correctAnswerInner = Green50,
+    correctAnswerBorder = Green200,
     buttonNotActive = LightGray,
     primaryDark = Orange700,
-    primaryLight = Orange200
+    primaryLight = Orange200,
+    text = Black,
+    wrongAnswerBorder = Red200,
+    wrongAnswerInner = Red50,
+    textGreen = Green500,
+    textRed = Red500
 )
 
 val LocalColors = staticCompositionLocalOf { LightMyColorPalette }
@@ -57,19 +67,15 @@ fun ECSRevisionTheme(
     val systemsUiController = rememberSystemUiController()
     val colors = when {
 
-        darkTheme -> DarkMyColorPalette
-        else -> LightMyColorPalette
+        darkTheme -> {
+            DarkMyColorPalette
+        }
+        else -> {
+            LightMyColorPalette
+        }
     }
 
-    if(darkTheme){
-        systemsUiController.setStatusBarColor(
-            MaterialTheme.myColors.primaryDark
-        )
-    }else{
-        systemsUiController.setStatusBarColor(
-            MaterialTheme.myColors.primaryDark
-        )
-    }
+
 //    val view = LocalView.current
 //    if (!view.isInEditMode) {
 //        SideEffect {
@@ -83,6 +89,16 @@ fun ECSRevisionTheme(
             typography = TtTypography,
             colorScheme = colors.material,
             content = content
+        )
+    }
+
+    if(darkTheme){
+        systemsUiController.setStatusBarColor(
+            DarkMyColorPalette.primaryDark
+        )
+    }else{
+        systemsUiController.setStatusBarColor(
+            LightMyColorPalette.primaryDark
         )
     }
 }

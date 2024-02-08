@@ -37,7 +37,7 @@ fun NotAllAnsweredAlertDialog(
                     text = context.getString(R.string.warning),
                     textAlign = TextAlign.Center,
                     style = MaterialTheme.typography.titleLarge.copy(
-                        color = MaterialTheme.myColors.error
+                        color = MaterialTheme.myColors.textRed
                     ),
                     modifier = Modifier
                         .align(Alignment.Center))
