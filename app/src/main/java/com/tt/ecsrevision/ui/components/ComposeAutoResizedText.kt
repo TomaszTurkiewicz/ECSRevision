@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.isUnspecified
 @Composable
 fun ComposeAutoResizedText(
     text:String,
-    style: TextStyle = MaterialTheme.typography.titleLarge,
+    style: TextStyle,
     modifier: Modifier = Modifier,
     textAlign: TextAlign,
 ) {

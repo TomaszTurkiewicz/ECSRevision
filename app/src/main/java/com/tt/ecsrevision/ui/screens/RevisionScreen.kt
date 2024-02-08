@@ -74,6 +74,7 @@ fun RevisionScreen(
           //              text = "QUESTION: " + question.segment + "." + question.number,
                         text = context.getString(R.string.question_number,question.segment,question.number),
                         textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier
                             .align(Alignment.CenterStart)
                             .padding(16.dp)

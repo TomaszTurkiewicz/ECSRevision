@@ -125,7 +125,9 @@ fun TestSummary(
                 text = explanationString,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
-                    .padding(10.dp))
+                    .padding(10.dp),
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
 
         // buttons
