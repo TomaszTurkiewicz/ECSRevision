@@ -72,7 +72,7 @@ fun TestAnswerRow(
                 .padding(5.dp)
                 .border(
                     width = 2.dp,
-                    color = MaterialTheme.myColors.secondary,
+                    color = MaterialTheme.myColors.primaryLight,
                     shape = RoundedCornerShape(20.dp)
                 )
                 .padding(end = 2.dp)

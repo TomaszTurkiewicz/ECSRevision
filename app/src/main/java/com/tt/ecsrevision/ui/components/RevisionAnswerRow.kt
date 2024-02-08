@@ -32,7 +32,7 @@ fun RevisionAnswerRow(
     info:String,
     alertDialog: MutableState<Boolean>
 ) {
-    val frameColor = if(correctAnswer) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.colorScheme.secondary
+    val frameColor = if(correctAnswer) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.myColors.primaryLight
     if(correctAnswer)
     {
         Row (

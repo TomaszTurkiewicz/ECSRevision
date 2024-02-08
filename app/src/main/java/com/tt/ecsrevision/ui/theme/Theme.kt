@@ -24,7 +24,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val DarkMyColorPalette = CustomColorsPalette(
     material = darkColorScheme(
-        primary = Orange500
+        primary = Orange500,
+        primaryContainer = Orange100
     ),
     correctAnswerInner = DarkGreenInner,
     correctAnswerBorder = DarkGreenBorder,
@@ -35,7 +36,8 @@ private val DarkMyColorPalette = CustomColorsPalette(
 
 private val LightMyColorPalette = CustomColorsPalette(
     material = lightColorScheme(
-        primary = Orange500
+        primary = Orange500,
+        primaryContainer = Orange100
     ),
     correctAnswerInner = LightGreenInner,
     correctAnswerBorder = LightGreenBorder,

@@ -31,7 +31,7 @@ fun WrongAnswerRow(
     }else if (correct){
         MaterialTheme.myColors.correctAnswerBorder
     }else{
-        MaterialTheme.myColors.secondary
+        MaterialTheme.myColors.primaryLight
     }
 
     val backgroundColor = if(selected){

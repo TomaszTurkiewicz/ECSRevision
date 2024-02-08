@@ -13,4 +13,5 @@ val LightGray = Color(0xFFBEBEBE)
 val Orange500 = Color(0xFFFF9800)
 val Orange200 = Color(0xFFFFCC80)
 val Orange700 = Color(0xFFF57C00)
+val Orange100 = Color(0xFFFFE0B2)
 
