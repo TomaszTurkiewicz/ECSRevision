@@ -46,7 +46,7 @@ fun TestSummary(
             ComposeAutoResizedText(
                 text = context.getString(R.string.summary),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge)
+                style = MaterialTheme.typography.headlineLarge)
         }
 
         // time and score
@@ -95,7 +95,7 @@ fun TestSummary(
                     text = if (viewModel.getTestPass()) context.getString(R.string.pass)
                     else context.getString(R.string.failed),
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge.copy(
+                    style = MaterialTheme.typography.headlineLarge.copy(
                         color = if(viewModel.getTestPass()) MaterialTheme.myColors.correctAnswerBorder else MaterialTheme.myColors.error
                     )
                 )

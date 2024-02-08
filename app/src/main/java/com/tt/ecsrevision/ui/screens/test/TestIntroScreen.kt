@@ -56,7 +56,7 @@ fun TestIntroScreen(
             ComposeAutoResizedText(
                 text = context.getString(R.string.ecs_test),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge)
+                style = MaterialTheme.typography.headlineLarge)
         }
 
         // test requirements

@@ -12,7 +12,11 @@ val TtTypography = Typography(
     /** for
      * any normal text in the app
      * buttons
-     * welcome screen - checking database version **/
+     * welcome screen - checking database version
+     * answers
+     * explanations
+     * clock
+     * etc **/
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -21,8 +25,10 @@ val TtTypography = Typography(
         letterSpacing = 0.5.sp
     ),
 
-    /**for normal text in the app
-     * like answers, explanations etc **/
+    /** for important text
+     * questions
+     * pass mark
+     * test time **/
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
@@ -42,7 +48,8 @@ val TtTypography = Typography(
     ),
 
     /** for
-     * welcome screen WELCOME text on top of the screen **/
+     * welcome screen WELCOME text on top of the screen
+     * test summary SUMMARY and FAILED/PASS **/
     headlineLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,

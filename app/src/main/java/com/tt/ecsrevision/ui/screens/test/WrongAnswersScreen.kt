@@ -60,7 +60,7 @@ fun WrongAnswersScreen(
                     ComposeAutoResizedText(
                         text = context.getString(R.string.wrong_question_counter,viewModel.getCurrentWrongQuestionCounter(),viewModel.getWrongAnswersCounter()),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge)
+                        style = MaterialTheme.typography.bodyLarge)
                 }
 
                 Box(modifier = Modifier

@@ -108,7 +108,7 @@ fun TestRunScreen(
                     ComposeAutoResizedText(
                         text = timeString,
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.titleLarge)
+                        style = MaterialTheme.typography.bodyLarge)
                 }
 
                 Box(
