@@ -2,25 +2,20 @@ package com.tt.ecsrevision.ui.screens
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.tt.ecsrevision.R
@@ -33,7 +28,6 @@ import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.helpers.DatabaseConverter
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
 var currentPosition = 0
@@ -44,7 +38,6 @@ var testTimeDB = false
 var testPassMarkDB = false
 @Composable
 fun WelcomeScreen(
-    context: Context,
     databaseNumber: Int,
     viewModel: AppViewModel,
     databaseReady: Boolean,
@@ -52,9 +45,11 @@ fun WelcomeScreen(
 )
 {
 
-//    val type = com.tt.ecsrevision.ui.theme.Typography.titleLarge
+
+    val context = LocalContext.current
 
     if(databaseReady){
+
         moveToNext()
     }else {
 
@@ -71,8 +66,8 @@ fun WelcomeScreen(
                 ComposeAutoResizedText(
                     text = context.getString(R.string.welcome),
                     textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.titleLarge)
-//                    style = type)
+                    style = MaterialTheme.typography.headlineLarge
+                )
             }
 
             Box(
