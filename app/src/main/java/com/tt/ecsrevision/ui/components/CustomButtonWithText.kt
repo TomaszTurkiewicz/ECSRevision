@@ -34,7 +34,6 @@ fun CustomButtonWithText(
 
 
     var backgroundColor = if(visible)MaterialTheme.myColors.secondary else MaterialTheme.myColors.buttonNotActive
-    val textColor = MaterialTheme.myColors.background
 
     if(touchedDown.value){
         if(visible)backgroundColor = MaterialTheme.myColors.tertiary else MaterialTheme.myColors.buttonNotActive
@@ -85,8 +84,8 @@ fun CustomButtonWithText(
             ComposeAutoResizedText(
                 text = title,
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = textColor
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.myColors.background
                 ))
         }
     }

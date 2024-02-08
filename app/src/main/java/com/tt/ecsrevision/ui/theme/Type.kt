@@ -8,6 +8,11 @@ import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
 val TtTypography = Typography(
+
+    /** for
+     * any normal text in the app
+     * buttons
+     * welcome screen - checking database version **/
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -15,6 +20,9 @@ val TtTypography = Typography(
         lineHeight = 30.sp,
         letterSpacing = 0.5.sp
     ),
+
+    /**for normal text in the app
+     * like answers, explanations etc **/
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
@@ -22,6 +30,9 @@ val TtTypography = Typography(
         lineHeight = 28.sp,
         letterSpacing = 0.sp
     ),
+
+    /** for
+     * top bar in the whole app only **/
     labelLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -30,6 +41,8 @@ val TtTypography = Typography(
         letterSpacing = 0.5.sp
     ),
 
+    /** for
+     * welcome screen WELCOME text on top of the screen **/
     headlineLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
