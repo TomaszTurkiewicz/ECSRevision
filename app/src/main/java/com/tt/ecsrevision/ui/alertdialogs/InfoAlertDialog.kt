@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.ui.theme.myColors
 
 
@@ -62,12 +62,19 @@ fun InfoAlertDialog(
                     .padding(20.dp),
                 contentAlignment = Alignment.Center
             ){
-                CustomButtonWithText(
-                    title = context.getString(R.string.dismiss),
+                ElevatedButtonWithText(
+                    text = context.getString(R.string.dismiss),
                     modifier = Modifier
                         .fillMaxWidth(0.8f)) {
                     onDismissRequest()
                 }
+
+//                CustomButtonWithText(
+//                    title = context.getString(R.string.dismiss),
+//                    modifier = Modifier
+//                        .fillMaxWidth(0.8f)) {
+//                    onDismissRequest()
+//                }
             }
         },
         backgroundColor = androidx.compose.material3.MaterialTheme.myColors.primaryContainer,

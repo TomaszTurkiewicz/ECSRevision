@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +18,7 @@ import androidx.navigation.NavController
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.helpers.TimeConverter
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.ui.theme.myColors
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
@@ -142,8 +141,8 @@ fun TestSummary(
                 contentAlignment = Alignment.Center
             ){
                 if(!viewModel.getAllQuestionsRight()){
-                    CustomButtonWithText(
-                        title = context.getString(R.string.review),
+                    ElevatedButtonWithText(
+                        text = context.getString(R.string.review),
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
                             .fillMaxHeight(0.5f)
@@ -160,8 +159,8 @@ fun TestSummary(
                 contentAlignment = Alignment.Center
             ){
                 if(!viewModel.getAllQuestionsRight()){
-                    CustomButtonWithText(
-                        title = context.getString(R.string.finish),
+                    ElevatedButtonWithText(
+                        text = context.getString(R.string.finish),
                         modifier = Modifier
                             .fillMaxWidth(0.8f)
                             .fillMaxHeight(0.5f)

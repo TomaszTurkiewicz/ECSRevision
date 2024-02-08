@@ -13,7 +13,9 @@ data class CustomColorsPalette(
     val material: ColorScheme,
     val correctAnswerInner: Color,
     val correctAnswerBorder: Color,
-    val buttonNotActive: Color
+    val buttonNotActive: Color,
+    val primaryDark:Color,
+    val primaryLight:Color
 ){
     val primary:Color get() = material.primary
     val onPrimary:Color get() = material.onPrimary

@@ -1,31 +1,24 @@
 package com.tt.ecsrevision.ui.screens.test
 
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.MainActivity
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.viewmodels.AppViewModel
-import java.nio.file.WatchEvent
 
 @Composable
 fun TestIntroScreen(
@@ -135,8 +128,8 @@ fun TestIntroScreen(
         ) {
 
             if(rewardedAdWatched && (testListReady)){
-                CustomButtonWithText(
-                    title = context.getString(R.string.start_test),
+                ElevatedButtonWithText(
+                    text = context.getString(R.string.start_test),
                     modifier = Modifier
                         .fillMaxHeight(0.5f)
                         .aspectRatio(3f)
@@ -148,8 +141,8 @@ fun TestIntroScreen(
             else
             {
             if (rewardedAdLoaded) {
-                CustomButtonWithText(
-                    title = context.getString(R.string.watch_ad),
+                ElevatedButtonWithText(
+                    text = context.getString(R.string.watch_ad),
                     modifier = Modifier
                         .fillMaxHeight(0.5f)
                         .aspectRatio(3f)
@@ -157,12 +150,12 @@ fun TestIntroScreen(
                     activity.showRewardedAd()
                 }
             } else {
-                CustomButtonWithText(
-                    title = context.getString(R.string.watch_ad),
+                ElevatedButtonWithText(
+                    text = context.getString(R.string.watch_ad),
                     modifier = Modifier
                         .fillMaxHeight(0.5f)
                         .aspectRatio(3f),
-                    visible = false
+                    enable = false
                 ) {
                     Toast.makeText(
                         activity,

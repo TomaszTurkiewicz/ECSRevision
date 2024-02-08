@@ -12,12 +12,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.ui.theme.myColors
 
 @Composable
@@ -73,8 +72,8 @@ fun NotAllAnsweredAlertDialog(
                         ),
                     contentAlignment = Alignment.Center
                 ){
-                    CustomButtonWithText(
-                        title = context.getString(R.string.dismiss),
+                    ElevatedButtonWithText(
+                        text = context.getString(R.string.dismiss),
                         modifier = Modifier
                             .fillMaxWidth(0.8f)) {
                         onNegativeClick()
@@ -92,8 +91,8 @@ fun NotAllAnsweredAlertDialog(
                         ),
                     contentAlignment = Alignment.Center
                 ){
-                    CustomButtonWithText(
-                        title = context.getString(R.string.finish),
+                    ElevatedButtonWithText(
+                        text = context.getString(R.string.finish),
                         modifier = Modifier
                             .fillMaxWidth(0.8f)) {
                         onPositiveClick()

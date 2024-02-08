@@ -7,6 +7,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 //private val DarkColorScheme = darkColorScheme(
 //    primary = Purple80,
@@ -21,29 +23,49 @@ import androidx.compose.runtime.staticCompositionLocalOf
 //)
 
 private val DarkMyColorPalette = CustomColorsPalette(
-    material = darkColorScheme(),
+    material = darkColorScheme(
+        primary = Orange500
+    ),
     correctAnswerInner = DarkGreenInner,
     correctAnswerBorder = DarkGreenBorder,
-    buttonNotActive = LightGray
+    buttonNotActive = LightGray,
+    primaryDark = Orange700,
+    primaryLight = Orange200
 )
 
 private val LightMyColorPalette = CustomColorsPalette(
-    material = lightColorScheme(),
+    material = lightColorScheme(
+        primary = Orange500
+    ),
     correctAnswerInner = LightGreenInner,
     correctAnswerBorder = LightGreenBorder,
-    buttonNotActive = LightGray
+    buttonNotActive = LightGray,
+    primaryDark = Orange700,
+    primaryLight = Orange200
 )
 
 val LocalColors = staticCompositionLocalOf { LightMyColorPalette }
+
 @Composable
 fun ECSRevisionTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+    val systemsUiController = rememberSystemUiController()
     val colors = when {
 
         darkTheme -> DarkMyColorPalette
         else -> LightMyColorPalette
+    }
+
+    if(darkTheme){
+        systemsUiController.setStatusBarColor(
+            MaterialTheme.myColors.primaryDark
+        )
+    }else{
+        systemsUiController.setStatusBarColor(
+            MaterialTheme.myColors.primaryDark
+        )
     }
 //    val view = LocalView.current
 //    if (!view.isInEditMode) {

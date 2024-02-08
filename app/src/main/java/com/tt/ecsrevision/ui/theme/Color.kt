@@ -8,5 +8,9 @@ val DarkGreenBorder = Color(0xFF126300)
 val DarkGreenInner = Color(0xFF203D1A)
 
 
-val LightGray = Color(0xFF8A8A8A)
+val LightGray = Color(0xFFBEBEBE)
+
+val Orange500 = Color(0xFFFF9800)
+val Orange200 = Color(0xFFFFCC80)
+val Orange700 = Color(0xFFF57C00)
 

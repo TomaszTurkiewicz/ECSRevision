@@ -58,7 +58,7 @@ fun ECSRevisionAppBar(
             )
                 },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.myColors.primaryContainer
+            containerColor = MaterialTheme.myColors.primaryLight
         ),
         modifier = modifier
             .fillMaxWidth()

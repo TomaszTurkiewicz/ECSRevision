@@ -1,6 +1,5 @@
 package com.tt.ecsrevision.ui.screens
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,12 +19,12 @@ import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.MainActivity
 import com.tt.ecsrevision.R
 import com.tt.ecsrevision.data.room.Question
+import com.tt.ecsrevision.ui.alertdialogs.InfoAlertDialog
+import com.tt.ecsrevision.ui.alertdialogs.InterstitialAdAlertDialog
 import com.tt.ecsrevision.ui.components.ANSWER_SETTINGS_ICON
 import com.tt.ecsrevision.ui.components.ButtonWithIcon
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
-import com.tt.ecsrevision.ui.alertdialogs.InfoAlertDialog
-import com.tt.ecsrevision.ui.alertdialogs.InterstitialAdAlertDialog
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.ui.components.RESET_ICON
 import com.tt.ecsrevision.ui.components.RevisionAnswerRow
 import com.tt.ecsrevision.viewmodels.AppViewModel
@@ -208,8 +207,8 @@ fun RevisionScreen(
                 ) {
                     if (!viewModel.isCurrentRevisionPositionEqualToZero()) {
 
-                        CustomButtonWithText(
-                            title = context.getString(R.string.previous),
+                        ElevatedButtonWithText(
+                            text = context.getString(R.string.previous),
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                                 .fillMaxHeight(0.5f)
@@ -227,8 +226,8 @@ fun RevisionScreen(
                 ) {
                     if (!viewModel.isRevisionLastQuestion()) {
 
-                        CustomButtonWithText(
-                            title = context.getString(R.string.next),
+                        ElevatedButtonWithText(
+                            text = context.getString(R.string.next),
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                                 .fillMaxHeight(0.5f)

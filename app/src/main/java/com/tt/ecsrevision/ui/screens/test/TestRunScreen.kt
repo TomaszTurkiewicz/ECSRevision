@@ -24,7 +24,7 @@ import com.tt.ecsrevision.helpers.TimeConverter
 import com.tt.ecsrevision.ui.alertdialogs.EndOfTimeAlertDialog
 import com.tt.ecsrevision.ui.alertdialogs.NotAllAnsweredAlertDialog
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
-import com.tt.ecsrevision.ui.components.CustomButtonWithText
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.ui.components.TestAnswerRow
 import com.tt.ecsrevision.ui.screens.A
 import com.tt.ecsrevision.ui.screens.B
@@ -118,8 +118,8 @@ fun TestRunScreen(
                     contentAlignment = Alignment.Center
                 )
                 {
-                  CustomButtonWithText(
-                      title = context.getString(R.string.finish),
+                  ElevatedButtonWithText(
+                      text = context.getString(R.string.finish),
                       modifier = Modifier
                           .fillMaxWidth(0.8f)
                           .fillMaxHeight(0.6f)) {
@@ -273,8 +273,8 @@ fun TestRunScreen(
                     contentAlignment = Alignment.Center
                 ) {
                     if (viewModel.isPreviousTestQuestion()) {
-                        CustomButtonWithText(
-                            title = context.getString(R.string.previous),
+                        ElevatedButtonWithText(
+                            text = context.getString(R.string.previous),
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                                 .fillMaxHeight(0.5f)
@@ -294,8 +294,8 @@ fun TestRunScreen(
 
                     if (!viewModel.isLastTestQuestion()) {
 
-                        CustomButtonWithText(
-                            title = context.getString(R.string.next),
+                        ElevatedButtonWithText(
+                            text = context.getString(R.string.next),
                             modifier = Modifier
                                 .fillMaxWidth(0.8f)
                                 .fillMaxHeight(0.5f)
