@@ -22,8 +22,8 @@ import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.ui.alertdialogs.InfoAlertDialog
 import com.tt.ecsrevision.ui.alertdialogs.InterstitialAdAlertDialog
 import com.tt.ecsrevision.ui.components.ANSWER_SETTINGS_ICON
-import com.tt.ecsrevision.ui.components.ButtonWithIcon
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
+import com.tt.ecsrevision.ui.components.ElevatedButtonWithIcon
 import com.tt.ecsrevision.ui.components.ElevatedButtonWithText
 import com.tt.ecsrevision.ui.components.RESET_ICON
 import com.tt.ecsrevision.ui.components.RevisionAnswerRow
@@ -87,7 +87,7 @@ fun RevisionScreen(
                         .padding(end = 10.dp),
                     contentAlignment = Alignment.CenterEnd
                 ) {
-                    ButtonWithIcon(
+                    ElevatedButtonWithIcon(
                         modifier = Modifier.fillMaxHeight(0.7f),
                         iconType = ANSWER_SETTINGS_ICON,
                         oneAnswer = oneAnswer
@@ -105,7 +105,7 @@ fun RevisionScreen(
                     contentAlignment = Alignment.CenterEnd
                 ) {
                     if (!viewModel.isCurrentRevisionPositionEqualToZero()) {
-                        ButtonWithIcon(
+                        ElevatedButtonWithIcon(
                             modifier = Modifier.fillMaxHeight(0.7f),
                             RESET_ICON,
                             false

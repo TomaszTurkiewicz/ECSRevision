@@ -1,9 +1,9 @@
 package com.tt.ecsrevision.ui.shapes
 
-import androidx.compose.runtime.Composable
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -16,9 +16,9 @@ fun AnsweredDot(
     currentQuestion:Boolean,
     answeredQuestions:Boolean
 ) {
-    val frameColor = MaterialTheme.myColors.secondary
-    val notAnsweredColor = MaterialTheme.myColors.error
-    val currentQuestionColor = MaterialTheme.myColors.correctAnswerBorder
+    val frameColor = MaterialTheme.myColors.primaryLight
+    val notAnsweredColor = MaterialTheme.myColors.primaryContainer
+    val currentQuestionColor = MaterialTheme.myColors.primary
 
     Canvas(
         modifier = Modifier

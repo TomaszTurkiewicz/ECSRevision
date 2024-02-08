@@ -7,7 +7,6 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 //private val DarkColorScheme = darkColorScheme(
@@ -25,7 +24,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 private val DarkMyColorPalette = CustomColorsPalette(
     material = darkColorScheme(
         primary = Orange500,
-        primaryContainer = Orange100
+        primaryContainer = Orange100,
+        background = Orange50
     ),
     correctAnswerInner = DarkGreenInner,
     correctAnswerBorder = DarkGreenBorder,
@@ -37,7 +37,8 @@ private val DarkMyColorPalette = CustomColorsPalette(
 private val LightMyColorPalette = CustomColorsPalette(
     material = lightColorScheme(
         primary = Orange500,
-        primaryContainer = Orange100
+        primaryContainer = Orange100,
+        background = Orange50
     ),
     correctAnswerInner = LightGreenInner,
     correctAnswerBorder = LightGreenBorder,

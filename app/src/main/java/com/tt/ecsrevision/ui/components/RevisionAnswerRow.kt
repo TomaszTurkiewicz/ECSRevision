@@ -1,6 +1,5 @@
 package com.tt.ecsrevision.ui.components
 
-import android.app.AlertDialog
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +15,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.tt.ecsrevision.ui.theme.myColors
@@ -74,7 +72,7 @@ fun RevisionAnswerRow(
                 contentAlignment = Alignment.Center){
 
                 if(info.isNotEmpty()) {
-                    ButtonWithIcon(
+                    ElevatedButtonWithIcon(
                         modifier = Modifier.fillMaxWidth(0.8f),
                         iconType = INFO_ICON,
                         corners = 10.dp,

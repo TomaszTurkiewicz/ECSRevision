@@ -2,21 +2,20 @@ package com.tt.ecsrevision.ui.shapes
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
-import com.tt.ecsrevision.ui.theme.myColors
 
 @Composable
 fun InfoIconShape(
     iconSize: Dp
 ) {
-        val color = MaterialTheme.myColors.background
+        val color = Color.Black
 
     Canvas(modifier = Modifier
         .size(iconSize)){
