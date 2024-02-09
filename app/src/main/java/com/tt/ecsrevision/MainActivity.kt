@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
@@ -113,19 +114,26 @@ class MainActivity : ComponentActivity() {
     }
 
     fun loadInterstitialAd(){
-        val interstitialAdId:String = if(TEST) this.getString(R.string.test_interstitial_ad) else this.getString(R.string.admob_interstitial_ad)
-        val adRequest = AdRequest.Builder().build()
-        InterstitialAd.load(this,interstitialAdId,adRequest, object : InterstitialAdLoadCallback(){
-            override fun onAdFailedToLoad(error: LoadAdError) {
-                super.onAdFailedToLoad(error)
-                mInterstitialAd = null
-            }
+        if(mInterstitialAd == null) {
+            val interstitialAdId: String =
+                if (TEST) this.getString(R.string.test_interstitial_ad) else this.getString(R.string.admob_interstitial_ad)
+            val adRequest = AdRequest.Builder().build()
+            InterstitialAd.load(
+                this,
+                interstitialAdId,
+                adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(error: LoadAdError) {
+                        super.onAdFailedToLoad(error)
+                        mInterstitialAd = null
+                    }
 
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                super.onAdLoaded(interstitialAd)
-                mInterstitialAd = interstitialAd
-            }
-        })
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        super.onAdLoaded(interstitialAd)
+                        mInterstitialAd = interstitialAd
+                    }
+                })
+        }
     }
 
     fun loadRewardedAd(){
@@ -168,6 +176,26 @@ class MainActivity : ComponentActivity() {
             ad.fullScreenContentCallback = object : FullScreenContentCallback(){
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
+                    mInterstitialAd = null
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    super.onAdShowedFullScreenContent()
+                    mInterstitialAd = null
+                }
+
+                override fun onAdClicked() {
+                    super.onAdClicked()
+                    mInterstitialAd = null
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    super.onAdFailedToShowFullScreenContent(p0)
+                    mInterstitialAd = null
+                }
+
+                override fun onAdImpression() {
+                    super.onAdImpression()
                     mInterstitialAd = null
                 }
             }

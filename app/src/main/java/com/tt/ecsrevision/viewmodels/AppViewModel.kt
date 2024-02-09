@@ -59,6 +59,7 @@ class AppViewModel(
     private var currentTestQuestion = 0
     private var currentWrongQuestion = 0
 
+    // save to sharedPreferences
     private var interstitialAdClicks = 0
 
     private var userScore = 0
@@ -358,6 +359,10 @@ class AppViewModel(
         }
     }
 
+    fun getInterstitialCLick(context: Context){
+        interstitialAdClicks = SharedPreferences.getInterstitialAdClicks(context)
+    }
+
     fun getOneAnswerBooleanFromSharedPreferences(context: Context){
         oneAnswer = SharedPreferences.getOneAnswer(context)
         _uiState.update { currentState ->
@@ -383,6 +388,10 @@ class AppViewModel(
         getCurrentRevisionQuestionFromSharedPreferences(context)
     }
 
+    private fun saveInterstitialAdClicksToSharedPreferences(context: Context){
+        SharedPreferences.saveInterstitialAdClicks(context,interstitialAdClicks)
+    }
+
     fun initializeCurrentRevisionQuestion(context: Context){
         currentRevisionQuestion = 0
         SharedPreferences.saveCurrentRevisionQuestion(context,currentRevisionQuestion)
@@ -391,7 +400,7 @@ class AppViewModel(
     fun nextRevisionQuestion(context: Context) {
         if (currentRevisionQuestion < list.size - 1) {
             currentRevisionQuestion += 1
-            increaseInterstitialAdClicks()
+            increaseInterstitialAdClicks(context)
             saveCurrentRevisionQuestionToSharedPreferences(context)
         }
     }
@@ -406,17 +415,18 @@ class AppViewModel(
     fun previousRevisionQuestion(context: Context){
         if(currentRevisionQuestion > 0){
             currentRevisionQuestion -=1
-            increaseInterstitialAdClicks()
+            increaseInterstitialAdClicks(context)
             saveCurrentRevisionQuestionToSharedPreferences(context)
         }
     }
 
-    private fun increaseInterstitialAdClicks(){
+    private fun increaseInterstitialAdClicks(context: Context){
         if(interstitialAdClicks<40) {
             interstitialAdClicks += 1
         }else{
             interstitialAdClicks =0
         }
+        saveInterstitialAdClicksToSharedPreferences(context)
     }
 
 

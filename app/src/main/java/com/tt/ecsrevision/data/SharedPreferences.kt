@@ -1,8 +1,6 @@
 package com.tt.ecsrevision.data
 
 import android.content.Context
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.res.stringResource
 import com.tt.ecsrevision.R
 
 class SharedPreferences() {
@@ -37,6 +35,25 @@ class SharedPreferences() {
             )
             return sp.getInt(context.getString(R.string.revision_question_number),0)
         }
+
+
+
+        fun saveInterstitialAdClicks(context: Context, clicks:Int){
+            val sp = context.getSharedPreferences(context.getString(R.string.interstitial_clicks),Context.MODE_PRIVATE)
+            val editor = sp.edit()
+            editor.putInt(context.getString(R.string.interstitial_clicks),clicks)
+            editor.apply()
+        }
+
+        fun getInterstitialAdClicks(context:Context):Int{
+            val sp = context.getSharedPreferences(
+                context.getString(R.string.interstitial_clicks),
+                Context.MODE_PRIVATE
+            )
+            return sp.getInt(context.getString(R.string.interstitial_clicks),0)
+        }
+
+
 
         fun saveNumberOfQuestions(context:Context, number: Int){
             val sp = context.getSharedPreferences(context.getString(R.string.number_of_questions),Context.MODE_PRIVATE)

@@ -45,6 +45,7 @@ fun RevisionScreen(
 
     val context = LocalContext.current
     viewModel.getCurrentRevisionQuestionFromSharedPreferences(context)
+    viewModel.getInterstitialCLick(context)
 
     val alertDialogInfo = remember { mutableStateOf(false) }
 
@@ -258,7 +259,7 @@ fun RevisionScreen(
         }
     }
 
-    if(viewModel.getClicks()==0){
+    if(viewModel.getClicks()!=40){
         activity.loadInterstitialAd()
     }
 
