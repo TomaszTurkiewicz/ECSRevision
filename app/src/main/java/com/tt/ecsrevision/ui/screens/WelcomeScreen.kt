@@ -1,5 +1,7 @@
 package com.tt.ecsrevision.ui.screens
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.layout.Box
@@ -9,6 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +32,8 @@ import com.tt.ecsrevision.data.firebase.TestTimeFirebase
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.helpers.DatabaseConverter
+import com.tt.ecsrevision.ui.alertdialogs.DatabaseNeededAlertDialog
+import com.tt.ecsrevision.ui.alertdialogs.UseOfflineAlertDialog
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
 import com.tt.ecsrevision.viewmodels.AppViewModel
 
@@ -36,6 +43,10 @@ var revisionDB = false
 var testDB = false
 var testTimeDB = false
 var testPassMarkDB = false
+
+
+
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun WelcomeScreen(
     databaseNumber: Int,
@@ -44,9 +55,16 @@ fun WelcomeScreen(
     moveToNext: () -> Unit
 )
 {
-
-
     val context = LocalContext.current
+
+    val databaseNeededZero = remember {
+        mutableStateOf(false)
+    }
+
+    val databaseNotChecked = remember {
+        mutableStateOf(false)
+    }
+
 
     if(databaseReady){
 
@@ -91,14 +109,31 @@ fun WelcomeScreen(
         }
 
         LaunchedEffect(key1 = databaseNumber) {
-            checkDatabase(context, databaseNumber, viewModel)
+            checkDatabase(context, databaseNumber, viewModel,databaseNeededZero, databaseNotChecked)
+        }
+
+        if(databaseNeededZero.value){
+            DatabaseNeededAlertDialog(context = context) {
+                val activity = context as Activity
+                    activity.finish()
+            }
+        }
+
+        if(databaseNotChecked.value){
+            UseOfflineAlertDialog(context = context) {
+                databaseNotChecked.value = false
+                viewModel.getPassMark()
+                viewModel.getTestTime()
+                viewModel.getAllQuestions(context)
+                viewModel.getAllTest(context)
+            }
         }
     }
 }
 
 
 
-fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
+fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel,databaseNeededZero:MutableState<Boolean>, databaseNotChecked:MutableState<Boolean>){
     val db = Firebase.database.getReference(context.getString(R.string.firebase_database_number))
     db.addListenerForSingleValueEvent(object : ValueEventListener{
         override fun onDataChange(snapshot: DataSnapshot) {
@@ -246,7 +281,8 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
 
                 }
             }else{
-                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+//                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+                displayDatabaseAlertDialog(spNumber,databaseNeededZero,databaseNotChecked)
             }
         }
 
@@ -254,10 +290,22 @@ fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel){
 
 
         override fun onCancelled(error: DatabaseError) {
-            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+//            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+
+            displayDatabaseAlertDialog(spNumber,databaseNeededZero,databaseNotChecked)
+
         }
 
     })
+}
+
+private fun displayDatabaseAlertDialog(spNumber:Int,databaseNeededZero:MutableState<Boolean>, databaseNotChecked:MutableState<Boolean>){
+    if(spNumber == 0){
+        databaseNeededZero.value = true
+    }
+    else{
+        databaseNotChecked.value = true
+    }
 }
 
 
@@ -265,8 +313,7 @@ private fun savePassMarkToRoomDatabase(viewModel: AppViewModel,context: Context,
     viewModel.insertPassMArk(passMark = DatabaseConverter.passMarkFirebaseToRoom(passMark))
     testPassMarkDB = true
     saveDatabaseNumber(viewModel,context,fNumber)
-    //todo
-//    viewModel.getPassMark()
+
 
 }
 
@@ -274,8 +321,7 @@ private fun saveTestTimeToRoomDatabase(viewModel: AppViewModel,context: Context,
     viewModel.insertTestTime(testTime = DatabaseConverter.passTestTimeFirebaseToRoom(testTime))
     testTimeDB = true
     saveDatabaseNumber(viewModel,context,fNumber)
-    //todo
-//    viewModel.getTestTime()
+
 
 }
 
@@ -287,8 +333,7 @@ private fun saveTestToRoomDatabase(viewModel:AppViewModel, context: Context, fNu
     }else{
         testDB = true
         saveDatabaseNumber(viewModel,context,fNumber)
-        //todo
-//        viewModel.getAllTest(context)
+
     }
 }
 
@@ -301,8 +346,7 @@ private fun saveToRoomDatabase(viewModel:AppViewModel, context: Context, fNumber
     }else{
         revisionDB = true
         saveDatabaseNumber(viewModel,context,fNumber)
-        //todo
-//        viewModel.getAllQuestions(context)
+
         viewModel.initializeCurrentRevisionQuestion(context)
     }
 }
