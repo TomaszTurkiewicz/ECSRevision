@@ -545,10 +545,12 @@ class AppViewModel(
 
     fun showFirstWrongQuestion() {
         this.currentWrongQuestion = 0
+        if(userWrongAnswersList.size>0){
         _uiState.update { currentState ->
             currentState.copy(
                 testQuestion = userWrongAnswersList[currentWrongQuestion]
             )
+        }
         }
     }
 

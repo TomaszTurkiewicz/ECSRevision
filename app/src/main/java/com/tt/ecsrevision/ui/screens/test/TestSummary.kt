@@ -103,6 +103,7 @@ fun TestSummary(
 
         // explanation
 
+        //todo what if 0 wrong questions?
         viewModel.showFirstWrongQuestion()
         val explanationString:String = if(viewModel.getTestPass()){
             if(viewModel.getAllQuestionsRight()){
@@ -158,7 +159,6 @@ fun TestSummary(
                     .fillMaxHeight(),
                 contentAlignment = Alignment.Center
             ){
-                if(!viewModel.getAllQuestionsRight()){
                     ElevatedButtonWithText(
                         text = context.getString(R.string.finish),
                         modifier = Modifier
@@ -167,7 +167,6 @@ fun TestSummary(
                     ) {
                         navController.navigateUp()
                     }
-                }
             }
         }
 

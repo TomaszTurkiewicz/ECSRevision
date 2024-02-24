@@ -32,6 +32,7 @@ import com.tt.ecsrevision.data.firebase.TestTimeFirebase
 import com.tt.ecsrevision.data.room.Question
 import com.tt.ecsrevision.data.room.Test
 import com.tt.ecsrevision.helpers.DatabaseConverter
+import com.tt.ecsrevision.helpers.Network
 import com.tt.ecsrevision.ui.alertdialogs.DatabaseNeededAlertDialog
 import com.tt.ecsrevision.ui.alertdialogs.UseOfflineAlertDialog
 import com.tt.ecsrevision.ui.components.ComposeAutoResizedText
@@ -133,170 +134,221 @@ fun WelcomeScreen(
 
 
 
-fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel,databaseNeededZero:MutableState<Boolean>, databaseNotChecked:MutableState<Boolean>){
-    val db = Firebase.database.getReference(context.getString(R.string.firebase_database_number))
-    db.addListenerForSingleValueEvent(object : ValueEventListener{
-        override fun onDataChange(snapshot: DataSnapshot) {
-            val fNumber = snapshot.getValue(Int::class.java)
-            if(fNumber!=null){
-                if(fNumber==spNumber){
-                    viewModel.getPassMark()
-                    viewModel.getTestTime()
-                    viewModel.getAllQuestions(context)
-                    viewModel.getAllTest(context)
+fun checkDatabase(context: Context, spNumber:Int, viewModel: AppViewModel,databaseNeededZero:MutableState<Boolean>, databaseNotChecked:MutableState<Boolean>) {
+    val networkAvailable = Network.networkAvailable(context)
+    if (!networkAvailable) {
+        displayDatabaseAlertDialog(spNumber, databaseNeededZero, databaseNotChecked)
+    } else {
+        val db =
+            Firebase.database.getReference(context.getString(R.string.firebase_database_number))
+        db.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val fNumber = snapshot.getValue(Int::class.java)
+                if (fNumber != null) {
+                    if (fNumber == spNumber) {
+                        viewModel.getPassMark()
+                        viewModel.getTestTime()
+                        viewModel.getAllQuestions(context)
+                        viewModel.getAllTest(context)
 
 
-
-
-                    // for creating question template
+                        // for creating question template
 //                    createQuestions(context,2)
-                    // create test requirements database in Firebase
+                        // create test requirements database in Firebase
 //                        createTest(context,2)
-                    // create test pass mark
+                        // create test pass mark
 //                    createTestPassMark(context,2)
-                    // create test time
+                        // create test time
 //                    createTestTime(context,2)
-                }else{
+                    } else {
 
 
 //                    viewModel.nukeTable()
-                    viewModel.nukeTables()
+                        viewModel.nukeTables()
 
-                    // read test pass mark
-                    var passMark = 0
-                    val dbPassMark = Firebase.database.getReference(
-                        context.getString(R.string.firebase_database_test_pass_mark)
-                    )
-                        .child(fNumber.toString())
-                    dbPassMark.addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if(snapshot.exists()){
-                                val pM = snapshot.getValue(TestPassMarkFirebase::class.java)
-                                pM?.let {
-                                    passMark = it.passMark
+                        // read test pass mark
+                        var passMark = 0
+                        val dbPassMark = Firebase.database.getReference(
+                            context.getString(R.string.firebase_database_test_pass_mark)
+                        )
+                            .child(fNumber.toString())
+                        dbPassMark.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    val pM = snapshot.getValue(TestPassMarkFirebase::class.java)
+                                    pM?.let {
+                                        passMark = it.passMark
+                                    }
+                                    savePassMarkToRoomDatabase(
+                                        viewModel,
+                                        context,
+                                        fNumber,
+                                        passMark
+                                    )
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.failed_to_get_data),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
-                                savePassMarkToRoomDatabase(viewModel,context,fNumber,passMark)
-                            }else{
-                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
-                        }
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.failed_to_get_data),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
 
-                    })
+                        })
 
-                    // read test time
-                    var testTime = 0
-                    val dbTestTime = Firebase.database.getReference(
-                        context.getString(R.string.firebase_database_test_time)
-                    )
-                        .child(fNumber.toString())
-                    dbTestTime.addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if(snapshot.exists()){
-                                val tM = snapshot.getValue(TestTimeFirebase::class.java)
-                                tM?.let {
-                                    testTime = it.time
+                        // read test time
+                        var testTime = 0
+                        val dbTestTime = Firebase.database.getReference(
+                            context.getString(R.string.firebase_database_test_time)
+                        )
+                            .child(fNumber.toString())
+                        dbTestTime.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    val tM = snapshot.getValue(TestTimeFirebase::class.java)
+                                    tM?.let {
+                                        testTime = it.time
+                                    }
+                                    saveTestTimeToRoomDatabase(
+                                        viewModel,
+                                        context,
+                                        fNumber,
+                                        testTime
+                                    )
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.failed_to_get_data),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
-                                saveTestTimeToRoomDatabase(viewModel,context,fNumber,testTime)
-                            }else{
-                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
-                        }
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.failed_to_get_data),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
 
-                    })
+                        })
 
-                    // read all questions
-                    val list = arrayListOf<Question>()
-                    val dbQuestions = Firebase.database.getReference(
-                        context.getString(R.string.firebase_database)
-                    )
-                        .child(fNumber.toString())
-                    dbQuestions.addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if(snapshot.exists()){
-                                list.clear()
-                                for(segment in snapshot.children){
-                                    for(question in segment.children){
-                                        val q = question.getValue(QuestionFirebase::class.java)
-                                        q?.let {
-                                            val qr = DatabaseConverter.firebaseToRoom(it,fNumber)
-                                            list.add(qr)
+                        // read all questions
+                        val list = arrayListOf<Question>()
+                        val dbQuestions = Firebase.database.getReference(
+                            context.getString(R.string.firebase_database)
+                        )
+                            .child(fNumber.toString())
+                        dbQuestions.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    list.clear()
+                                    for (segment in snapshot.children) {
+                                        for (question in segment.children) {
+                                            val q = question.getValue(QuestionFirebase::class.java)
+                                            q?.let {
+                                                val qr =
+                                                    DatabaseConverter.firebaseToRoom(it, fNumber)
+                                                list.add(qr)
+                                            }
                                         }
                                     }
+
+                                    SharedPreferences.saveNumberOfQuestions(context, list.size)
+
+                                    saveToRoomDatabase(viewModel, context, fNumber, list.size, list)
+
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.failed_to_get_data),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
-
-                                SharedPreferences.saveNumberOfQuestions(context,list.size)
-
-                                saveToRoomDatabase(viewModel,context,fNumber,list.size,list)
-
-                            }else{
-                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
                             }
-                        }
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
-                        }
-                    })
 
-                    // read test requirements
-                    val testList = arrayListOf<Test>()
-                    val dbTest = Firebase.database.getReference(
-                        context.getString(R.string.firebase_database_test)
-                    )
-                        .child(fNumber.toString())
-                    dbTest.addListenerForSingleValueEvent(object : ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            if(snapshot.exists()){
-                                testList.clear()
-                                for(segment in snapshot.children){
-                                    val t = segment.getValue(SegmentTestFirebase::class.java)
-                                    t?.let {
-                                        val sr = DatabaseConverter.testFirebaseToRoom(it)
-                                        testList.add(sr)
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.failed_to_get_data),
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        })
+
+                        // read test requirements
+                        val testList = arrayListOf<Test>()
+                        val dbTest = Firebase.database.getReference(
+                            context.getString(R.string.firebase_database_test)
+                        )
+                            .child(fNumber.toString())
+                        dbTest.addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                if (snapshot.exists()) {
+                                    testList.clear()
+                                    for (segment in snapshot.children) {
+                                        val t = segment.getValue(SegmentTestFirebase::class.java)
+                                        t?.let {
+                                            val sr = DatabaseConverter.testFirebaseToRoom(it)
+                                            testList.add(sr)
+                                        }
                                     }
+
+                                    SharedPreferences.saveNumberOfTests(context, testList.size)
+
+                                    saveTestToRoomDatabase(
+                                        viewModel,
+                                        context,
+                                        fNumber,
+                                        testList.size,
+                                        testList
+                                    )
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.failed_to_get_data),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
-
-                                SharedPreferences.saveNumberOfTests(context,testList.size)
-
-                                saveTestToRoomDatabase(viewModel,context,fNumber,testList.size,testList)
                             }
-                            else{
-                                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.failed_to_get_data),
+                                    Toast.LENGTH_LONG
+                                ).show()
                             }
-                        }
 
-                        override fun onCancelled(error: DatabaseError) {
-                            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
-                        }
-
-                    })
+                        })
 
 
-                }
-            }else{
+                    }
+                } else {
 //                Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
-                displayDatabaseAlertDialog(spNumber,databaseNeededZero,databaseNotChecked)
+                    displayDatabaseAlertDialog(spNumber, databaseNeededZero, databaseNotChecked)
+                }
             }
-        }
 
 
-
-
-        override fun onCancelled(error: DatabaseError) {
+            override fun onCancelled(error: DatabaseError) {
 //            Toast.makeText(context,context.getString(R.string.failed_to_get_data),Toast.LENGTH_LONG).show()
 
-            displayDatabaseAlertDialog(spNumber,databaseNeededZero,databaseNotChecked)
+                displayDatabaseAlertDialog(spNumber, databaseNeededZero, databaseNotChecked)
 
-        }
+            }
 
-    })
+        })
+    }
 }
 
 private fun displayDatabaseAlertDialog(spNumber:Int,databaseNeededZero:MutableState<Boolean>, databaseNotChecked:MutableState<Boolean>){
