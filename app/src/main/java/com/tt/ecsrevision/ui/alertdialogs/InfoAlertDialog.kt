@@ -5,10 +5,8 @@ import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
-
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,8 +56,8 @@ fun InfoAlertDialog(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.1f)
-                    .padding(20.dp),
+                    .fillMaxHeight(0.1f),
+//                    .padding(20.dp),
                 contentAlignment = Alignment.Center
             ){
                 ElevatedButtonWithText(

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material3.MaterialTheme
@@ -64,12 +63,12 @@ fun NotAllAnsweredAlertDialog(
                 Box (
                     modifier = Modifier
                         .fillMaxWidth(0.5f)
-                        .fillMaxHeight()
-                        .padding(
-                            start = 20.dp,
-                            top = 20.dp,
-                            bottom = 20.dp
-                        ),
+                        .fillMaxHeight(),
+//                        .padding(
+//                            start = 20.dp,
+//                            top = 20.dp,
+//                            bottom = 20.dp
+//                        ),
                     contentAlignment = Alignment.Center
                 ){
                     ElevatedButtonWithText(
@@ -83,12 +82,12 @@ fun NotAllAnsweredAlertDialog(
                 Box (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .fillMaxHeight()
-                        .padding(
-                            end = 20.dp,
-                            top = 20.dp,
-                            bottom = 20.dp
-                        ),
+                        .fillMaxHeight(),
+//                        .padding(
+//                            end = 20.dp,
+//                            top = 20.dp,
+//                            bottom = 20.dp
+//                        ),
                     contentAlignment = Alignment.Center
                 ){
                     ElevatedButtonWithText(
